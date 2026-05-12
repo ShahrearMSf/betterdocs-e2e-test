@@ -1,43 +1,263 @@
-name: BetterDocs Playwright E2E Tests
+name: BetterDocs E2E - Playwright Tests
 
 on:
+  # Manual trigger only for now — schedule can be added later.
   workflow_dispatch:
-  push:
-    branches: [ master, main ]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "betterdocs-e2e-playwright"
+  cancel-in-progress: false
 
 jobs:
-  playwright:
-    timeout-minutes: 60
+  playwright-test:
+    name: Run Playwright Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      CI: true
+    outputs:
+      passed: ${{ steps.parse-results.outputs.passed }}
+      failed: ${{ steps.parse-results.outputs.failed }}
+      flaky: ${{ steps.parse-results.outputs.flaky }}
+      skipped: ${{ steps.parse-results.outputs.skipped }}
+
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
 
-    - name: Setup WordPress & Plugins
-      env:
-        ESSENTIAL_BLOCKS_PAT: ${{ secrets.ESSENTIAL_BLOCKS_PAT }}
-      run: |
-        # Use a consistent PHP version for E2E
-        sudo update-alternatives --set php /usr/bin/php8.2
-        bash scripts/install-wp.sh
-        bash scripts/install-plugins.sh
-        bash scripts/create-demo-content.sh
+      - name: Set up environment variables
+        run: |
+          cat > .env <<EOF
+          STAGING_URL=${{ secrets.STAGING_URL }}
+          STAGING_USER=${{ secrets.STAGING_USER }}
+          STAGING_PASS=${{ secrets.STAGING_PASS }}
+          STAGING_AUTHOR_LOGIN=${{ secrets.STAGING_AUTHOR_LOGIN }}
+          STAGING_AUTHOR_PASS=${{ secrets.STAGING_AUTHOR_PASS }}
+          EOF
 
-    - name: Run Playwright tests
-      run: npx playwright test
+      - name: Run Playwright tests
+        id: test-run
+        continue-on-error: true
+        run: npx playwright test --config=playwright.staging.config.js --reporter=html,json
+        env:
+          STAGING_URL: ${{ secrets.STAGING_URL }}
+          STAGING_USER: ${{ secrets.STAGING_USER }}
+          STAGING_PASS: ${{ secrets.STAGING_PASS }}
+          STAGING_AUTHOR_LOGIN: ${{ secrets.STAGING_AUTHOR_LOGIN }}
+          STAGING_AUTHOR_PASS: ${{ secrets.STAGING_AUTHOR_PASS }}
+          PLAYWRIGHT_JSON_OUTPUT_NAME: results.json
 
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      - name: Parse test results
+        if: always()
+        id: parse-results
+        run: |
+          if [ -f results.json ]; then
+            PASSED=$(jq '[.suites[] | .. | objects | select(has("status")) | select(.status=="expected")] | length' results.json 2>/dev/null || echo "0")
+            FAILED=$(jq '[.suites[] | .. | objects | select(has("status")) | select(.status=="unexpected")] | length' results.json 2>/dev/null || echo "0")
+            FLAKY=$(jq '[.suites[] | .. | objects | select(has("status")) | select(.status=="flaky")] | length' results.json 2>/dev/null || echo "0")
+            SKIPPED=$(jq '[.suites[] | .. | objects | select(has("status")) | select(.status=="skipped")] | length' results.json 2>/dev/null || echo "0")
+          else
+            PASSED=0
+            FAILED=0
+            FLAKY=0
+            SKIPPED=0
+          fi
+
+          echo "passed=$PASSED" >> $GITHUB_OUTPUT
+          echo "failed=$FAILED" >> $GITHUB_OUTPUT
+          echo "flaky=$FLAKY" >> $GITHUB_OUTPUT
+          echo "skipped=$SKIPPED" >> $GITHUB_OUTPUT
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report-staging/
+          retention-days: 30
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: test-results-staging/
+          retention-days: 14
+
+      - name: Upload rename-drift log
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: staging-renames-report
+          path: staging-renames-report.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+  deploy-report:
+    name: Deploy Report to GitHub Pages
+    needs: playwright-test
+    if: always()
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Download report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report
+          path: ./playwright-report
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./playwright-report
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  notify-slack:
+    name: Send Slack Notification
+    needs: [playwright-test, deploy-report]
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build Slack payload
+        id: slack-payload
+        run: |
+          WORKFLOW_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          REPORT_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+
+          PASSED='${{ needs.playwright-test.outputs.passed }}'
+          FAILED='${{ needs.playwright-test.outputs.failed }}'
+          FLAKY='${{ needs.playwright-test.outputs.flaky }}'
+          SKIPPED='${{ needs.playwright-test.outputs.skipped }}'
+
+          PASSED=${PASSED:-0}
+          FAILED=${FAILED:-0}
+          FLAKY=${FLAKY:-0}
+          SKIPPED=${SKIPPED:-0}
+
+          if [ "$FAILED" -gt 0 ] 2>/dev/null; then
+            STATUS="Some tests failed"
+            COLOR="danger"
+          elif [ "$FLAKY" -gt 0 ] 2>/dev/null; then
+            STATUS="All passed (some flaky)"
+            COLOR="warning"
+          elif [ "$PASSED" -gt 0 ] 2>/dev/null; then
+            STATUS="All tests passed"
+            COLOR="good"
+          else
+            STATUS="Tests completed"
+            COLOR="warning"
+          fi
+
+          cat > /tmp/slack-payload.json <<EOF
+          {
+            "attachments": [
+              {
+                "color": "$COLOR",
+                "blocks": [
+                  {
+                    "type": "header",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "BetterDocs E2E - Playwright Test Results",
+                      "emoji": true
+                    }
+                  },
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": ":white_check_mark: $PASSED | :x: $FAILED | :large_yellow_circle: $FLAKY | :fast_forward: $SKIPPED"
+                    }
+                  },
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "*Status:* $STATUS"
+                    }
+                  },
+                  {
+                    "type": "section",
+                    "fields": [
+                      {
+                        "type": "mrkdwn",
+                        "text": "*Branch:*\n${{ github.ref_name }}"
+                      },
+                      {
+                        "type": "mrkdwn",
+                        "text": "*Triggered by:*\n${{ github.event_name == 'schedule' && 'Scheduled' || github.actor }}"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "*Executed:* $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+                    }
+                  },
+                  {
+                    "type": "actions",
+                    "elements": [
+                      {
+                        "type": "button",
+                        "text": {
+                          "type": "plain_text",
+                          "text": "View Report",
+                          "emoji": true
+                        },
+                        "url": "$REPORT_URL",
+                        "style": "primary"
+                      },
+                      {
+                        "type": "button",
+                        "text": {
+                          "type": "plain_text",
+                          "text": "View Workflow",
+                          "emoji": true
+                        },
+                        "url": "$WORKFLOW_URL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+
+      - name: Send to Slack Webhook
+        if: env.SLACK_WEBHOOK_URL != ''
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST "$SLACK_WEBHOOK_URL" \
+            -H 'Content-Type: application/json' \
+            -d @/tmp/slack-payload.json
+          echo "Slack webhook sent"
