@@ -1,39 +1,7 @@
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
-const fs = __importStar(require("fs"));
-const path = __importStar(require("path"));
-const { gotoAdmin } = require("./auth");
+const fs = require("fs");
+const path = require("path");
+const { gotoAdmin, getRestNonce } = require("./auth");
+const { STAGING } = require("./env");
 const RENAME_REPORT = path.resolve(__dirname, '../../../staging-renames-report.json');
 /** Append a rename observation. Never throws. */
 function logRename(scope, expected, actual) {
@@ -83,8 +51,8 @@ async function listSettingsTabs(page) {
  * the toggle actually flipped — callers can degrade gracefully if not.
  */
 async function setMultipleKb(page, on) {
-    const { getRestNonce } = await Promise.resolve().then(() => __importStar(require('./auth')));
-    const { STAGING } = await Promise.resolve().then(() => __importStar(require('./env')));
+    
+    
     const nonce = await getRestNonce(page);
     // Shape 1: { settings: { multiple_kb } }
     // Shape 2: { multiple_kb } (flat)
@@ -113,7 +81,7 @@ async function setMultipleKb(page, on) {
     if (!on && (persisted === false || persisted === '0' || persisted === 0))
         return true;
     // Fallback: drive the General settings tab UI directly.
-    const { gotoAdmin } = await Promise.resolve().then(() => __importStar(require('./auth')));
+    
     await gotoAdmin(page, 'admin.php?page=betterdocs-settings');
     await page.waitForTimeout(2500);
     // Make sure we're on the General tab

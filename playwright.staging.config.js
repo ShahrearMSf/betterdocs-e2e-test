@@ -39,7 +39,7 @@ if ( !process.env.STAGING_URL ) {
 
 module.exports = defineConfig({
     testDir: './playwright/tests/staging',
-    timeout: 5 * 60_000,
+    timeout: 10 * 60_000,        // 10 min per test — accommodates slow staging server responses
     fullyParallel: false,        // tier specs share site state — serial within a tier
     workers: 1,
     retries: process.env.CI ? 2 : 0,

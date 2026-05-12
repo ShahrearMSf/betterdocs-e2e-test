@@ -1,0 +1,4159 @@
+{
+  "config": {
+    "configFile": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/playwright.staging.config.js",
+    "rootDir": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/playwright/tests/staging",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/test-results-staging",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "00-setup",
+        "name": "00-setup",
+        "testDir": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/playwright/tests/staging",
+        "testIgnore": [],
+        "testMatch": [
+          "/00-setup\\.spec\\.js/"
+        ],
+        "timeout": 600000
+      },
+      {
+        "outputDir": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/test-results-staging",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "tier1-free",
+        "name": "tier1-free",
+        "testDir": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/playwright/tests/staging",
+        "testIgnore": [],
+        "testMatch": [
+          "/\\/01[a-z]?-.*\\.spec\\.js$/"
+        ],
+        "timeout": 600000
+      },
+      {
+        "outputDir": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/test-results-staging",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "tier2-pro",
+        "name": "tier2-pro",
+        "testDir": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/playwright/tests/staging",
+        "testIgnore": [],
+        "testMatch": [
+          "/\\/02[a-z]?-.*\\.spec\\.js$/"
+        ],
+        "timeout": 600000
+      },
+      {
+        "outputDir": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/test-results-staging",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "tier3-chatbot",
+        "name": "tier3-chatbot",
+        "testDir": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/playwright/tests/staging",
+        "testIgnore": [],
+        "testMatch": [
+          "/\\/03[a-z]?-.*\\.spec\\.js$/"
+        ],
+        "timeout": 600000
+      },
+      {
+        "outputDir": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/test-results-staging",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "themes",
+        "name": "themes",
+        "testDir": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/playwright/tests/staging",
+        "testIgnore": [],
+        "testMatch": [
+          "/04-themes-.*\\.spec\\.js/"
+        ],
+        "timeout": 600000
+      },
+      {
+        "outputDir": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/test-results-staging",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "99-cleanup",
+        "name": "99-cleanup",
+        "testDir": "/Users/shahrear/Documents/MSF/Automation/betterdocs-full-e2e/playwright/tests/staging",
+        "testIgnore": [],
+        "testMatch": [
+          "/99-cleanup\\.spec\\.js/"
+        ],
+        "timeout": 600000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report-staging",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "00-setup.spec.js",
+      "file": "00-setup.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Setup",
+          "file": "00-setup.spec.js",
+          "line": 9,
+          "column": 15,
+          "specs": [
+            {
+              "title": "login works + admin email interstitial bypassed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "00-setup",
+                  "projectName": "00-setup",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3f82207c18ccad89626c-1149926be0a16434ac5c",
+              "file": "00-setup.spec.js",
+              "line": 10,
+              "column": 5
+            },
+            {
+              "title": "inventory plugins",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "00-setup",
+                  "projectName": "00-setup",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3f82207c18ccad89626c-9440b0564f45efe60696",
+              "file": "00-setup.spec.js",
+              "line": 16,
+              "column": 5
+            },
+            {
+              "title": "activate tier1 (free) baseline",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "00-setup",
+                  "projectName": "00-setup",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3f82207c18ccad89626c-9f9561e890f189b5448b",
+              "file": "00-setup.spec.js",
+              "line": 23,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "01-tier1-free.spec.js",
+      "file": "01-tier1-free.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Tier 1 · BetterDocs Free",
+          "file": "01-tier1-free.spec.js",
+          "line": 30,
+          "column": 15,
+          "specs": [
+            {
+              "title": "1.1 BetterDocs admin menu present + Dashboard loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ebed1f9cb3bfb58627a5-d530c4f32d16dafea036",
+              "file": "01-tier1-free.spec.js",
+              "line": 38,
+              "column": 5
+            },
+            {
+              "title": "1.2 All Docs list page loads + view-mode buttons present",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ebed1f9cb3bfb58627a5-4fdafbe745149ac1ba84",
+              "file": "01-tier1-free.spec.js",
+              "line": 49,
+              "column": 5
+            },
+            {
+              "title": "1.3 Settings tabs inventory (Free tier)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ebed1f9cb3bfb58627a5-6c3e7495040a739f9e11",
+              "file": "01-tier1-free.spec.js",
+              "line": 71,
+              "column": 5
+            },
+            {
+              "title": "1.4 Toggle a setting + verify reflection on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ebed1f9cb3bfb58627a5-3434ac9c43cdd2c9635d",
+              "file": "01-tier1-free.spec.js",
+              "line": 90,
+              "column": 5
+            },
+            {
+              "title": "1.5 Categories — create + verify in admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ebed1f9cb3bfb58627a5-b839702310448f2f95b6",
+              "file": "01-tier1-free.spec.js",
+              "line": 111,
+              "column": 5
+            },
+            {
+              "title": "1.6 Tags — create + verify in admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ebed1f9cb3bfb58627a5-e1e4e8ab2ab60929cbb6",
+              "file": "01-tier1-free.spec.js",
+              "line": 121,
+              "column": 5
+            },
+            {
+              "title": "1.7 Doc — create in category + tag, verify frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ebed1f9cb3bfb58627a5-5c0ab326bf403cbfa837",
+              "file": "01-tier1-free.spec.js",
+              "line": 131,
+              "column": 5
+            },
+            {
+              "title": "1.8 FAQ Builder — create FAQ",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ebed1f9cb3bfb58627a5-1e295b088f32ce102290",
+              "file": "01-tier1-free.spec.js",
+              "line": 159,
+              "column": 5
+            },
+            {
+              "title": "1.9 Glossaries — visit admin page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ebed1f9cb3bfb58627a5-6058144a911a7afb8ccd",
+              "file": "01-tier1-free.spec.js",
+              "line": 172,
+              "column": 5
+            },
+            {
+              "title": "1.10 Image upload smoke — Media Library",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ebed1f9cb3bfb58627a5-a556bc89de772f60b7be",
+              "file": "01-tier1-free.spec.js",
+              "line": 181,
+              "column": 5
+            },
+            {
+              "title": "1.99 Cleanup tier-1 entities",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ebed1f9cb3bfb58627a5-8dd17ac028652844dc07",
+              "file": "01-tier1-free.spec.js",
+              "line": 189,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "01b-tier1-extended.spec.js",
+      "file": "01b-tier1-extended.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Tier 1b · Free extended",
+          "file": "01b-tier1-extended.spec.js",
+          "line": 21,
+          "column": 15,
+          "specs": [
+            {
+              "title": "1b.1 Image upload — REST media endpoint accepts a PNG",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0e33830a6fdc8e851fe3-9e38eb6a049430884133",
+              "file": "01b-tier1-extended.spec.js",
+              "line": 30,
+              "column": 5
+            },
+            {
+              "title": "1b.2 BetterDocs Gutenberg blocks render on a published page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0e33830a6fdc8e851fe3-511e92258b25c8ca7fff",
+              "file": "01b-tier1-extended.spec.js",
+              "line": 39,
+              "column": 5
+            },
+            {
+              "title": "1b.3 BetterDocs shortcodes render on a published page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0e33830a6fdc8e851fe3-91ba9ecdb5be9632cc86",
+              "file": "01b-tier1-extended.spec.js",
+              "line": 69,
+              "column": 5
+            },
+            {
+              "title": "1b.4 Layout tab — toggle a layout setting + verify in Settings UI",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0e33830a6fdc8e851fe3-e3aebdacb726a698a14b",
+              "file": "01b-tier1-extended.spec.js",
+              "line": 94,
+              "column": 5
+            },
+            {
+              "title": "1b.5 Design tab — color / font controls visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0e33830a6fdc8e851fe3-a5d7ffea9d64c932c1e6",
+              "file": "01b-tier1-extended.spec.js",
+              "line": 112,
+              "column": 5
+            },
+            {
+              "title": "1b.6 Shortcodes tab — list of available shortcodes shown",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0e33830a6fdc8e851fe3-86b162e7bee45c4ba3a5",
+              "file": "01b-tier1-extended.spec.js",
+              "line": 125,
+              "column": 5
+            },
+            {
+              "title": "1b.7 Email Reporting tab opens",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0e33830a6fdc8e851fe3-f13ef2f9bfd5339e46c0",
+              "file": "01b-tier1-extended.spec.js",
+              "line": 142,
+              "column": 5
+            },
+            {
+              "title": "1b.8 Instant Answer tab — toggle on + verify modal markup on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0e33830a6fdc8e851fe3-d691f0ce3bdc023c6bf5",
+              "file": "01b-tier1-extended.spec.js",
+              "line": 155,
+              "column": 5
+            },
+            {
+              "title": "1b.9 AI Content Suite tab opens",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0e33830a6fdc8e851fe3-a9d66e6763f4e46ae1df",
+              "file": "01b-tier1-extended.spec.js",
+              "line": 187,
+              "column": 5
+            },
+            {
+              "title": "1b.10 Migration tab opens (Free shows the tab; Pro powers it)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0e33830a6fdc8e851fe3-edd8e21820250f57521e",
+              "file": "01b-tier1-extended.spec.js",
+              "line": 200,
+              "column": 5
+            },
+            {
+              "title": "1b.11 Import / Export tab opens + has file inputs",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0e33830a6fdc8e851fe3-1a6e7fac797e1691751e",
+              "file": "01b-tier1-extended.spec.js",
+              "line": 213,
+              "column": 5
+            },
+            {
+              "title": "1b.99 Cleanup attachments + pages",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0e33830a6fdc8e851fe3-9f6a2ba187823b9701fb",
+              "file": "01b-tier1-extended.spec.js",
+              "line": 229,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "01c-blocks-depth.spec.js",
+      "file": "01c-blocks-depth.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "01c · Every Gutenberg block",
+          "file": "01c-blocks-depth.spec.js",
+          "line": 32,
+          "column": 15,
+          "specs": [
+            {
+              "title": "01c.categorygrid — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-f5f8e18da8d408b8dea2",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.categorybox — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-27854836035959e2ae41",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.category-slate-layout — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-286d6617ccdc79603a18",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.archive-list — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-efe418acbfac39f042f8",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.faq — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-af4c78daaf028db0b1b0",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.sidebar — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-839c882b784fbd87a6d3",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.searchbox — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-b2f8c6fbdd05a2a14df9",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.social-share — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-d9635c547b9a7b7ea8c3",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.reactions — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-3ec22ec461c0a7ca50a6",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.reading-time — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-751706f73d36c3010405",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.table-of-contents — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-bd015d331ca66daf1b61",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.feedback-form — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-63f36b7b1440b08a9a3c",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.glossaries — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-5f6087c8df0031874446",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.doc-content — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-e0b459f0dc6adef5871d",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.breadcrumb — renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-1da4cdfe03f4db65f97d",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "01c.cleanup",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d0b1e82ce4de747a1b1d-60bb7dc5850b0de94b52",
+              "file": "01c-blocks-depth.spec.js",
+              "line": 65,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "01d-shortcodes-depth.spec.js",
+      "file": "01d-shortcodes-depth.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "01d · Every BetterDocs shortcode",
+          "file": "01d-shortcodes-depth.spec.js",
+          "line": 25,
+          "column": 15,
+          "specs": [
+            {
+              "title": "01d.[betterdocs_category_grid] — renders without fatal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "56657110eb6cb5b96303-ac06e00fbd4848cd36e7",
+              "file": "01d-shortcodes-depth.spec.js",
+              "line": 34,
+              "column": 9
+            },
+            {
+              "title": "01d.[betterdocs_category_box] — renders without fatal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "56657110eb6cb5b96303-2b0557f7fb55d3b3df66",
+              "file": "01d-shortcodes-depth.spec.js",
+              "line": 34,
+              "column": 9
+            },
+            {
+              "title": "01d.[betterdocs_category_grid_3] — renders without fatal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "56657110eb6cb5b96303-70d1facf5a3ca6fc122f",
+              "file": "01d-shortcodes-depth.spec.js",
+              "line": 34,
+              "column": 9
+            },
+            {
+              "title": "01d.[betterdocs_docs_archive] — renders without fatal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "56657110eb6cb5b96303-3576eebbfe9b96630479",
+              "file": "01d-shortcodes-depth.spec.js",
+              "line": 34,
+              "column": 9
+            },
+            {
+              "title": "01d.[betterdocs_search_form] — renders without fatal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "56657110eb6cb5b96303-136bbb5a09845b99e242",
+              "file": "01d-shortcodes-depth.spec.js",
+              "line": 34,
+              "column": 9
+            },
+            {
+              "title": "01d.[betterdocs_breadcrumb] — renders without fatal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "56657110eb6cb5b96303-68e2ee903e3cd48be830",
+              "file": "01d-shortcodes-depth.spec.js",
+              "line": 34,
+              "column": 9
+            },
+            {
+              "title": "01d.[betterdocs_related_docs] — renders without fatal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "56657110eb6cb5b96303-ab761cfb9f04a6211b81",
+              "file": "01d-shortcodes-depth.spec.js",
+              "line": 34,
+              "column": 9
+            },
+            {
+              "title": "01d.[betterdocs_faq] — renders without fatal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "56657110eb6cb5b96303-ffdd1e1304d25b2d7f4d",
+              "file": "01d-shortcodes-depth.spec.js",
+              "line": 34,
+              "column": 9
+            },
+            {
+              "title": "01d.[betterdocs_glossaries] — renders without fatal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "56657110eb6cb5b96303-4699e96b1d65c1bd4098",
+              "file": "01d-shortcodes-depth.spec.js",
+              "line": 34,
+              "column": 9
+            },
+            {
+              "title": "01d.[betterdocs_multiple_kb] — renders without fatal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "56657110eb6cb5b96303-341292b022d1dfe9330f",
+              "file": "01d-shortcodes-depth.spec.js",
+              "line": 34,
+              "column": 9
+            },
+            {
+              "title": "01d.cleanup",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "56657110eb6cb5b96303-a0aa0c7df66c00a9043d",
+              "file": "01d-shortcodes-depth.spec.js",
+              "line": 54,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "01e-settings-deep.spec.js",
+      "file": "01e-settings-deep.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "01e · Per-setting toggle round-trip",
+          "file": "01e-settings-deep.spec.js",
+          "line": 38,
+          "column": 15,
+          "specs": [
+            {
+              "title": "01e.multiple_kb — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-eef2ef9bf726476ad9ab",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_kb_in_search — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-1748d022709ee53d87f7",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.category_in_search — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-e50a7c0e1877bcd47d31",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.builtin_doc_page — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-97bb018d841d70765081",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.breadcrumb — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-6f1dd03f7dd94bd82481",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.sticky_sidebar — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-0f6e36120f7249ec174c",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.kb_nested_subcategory — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-239592672713b51ce721",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.kb_based_archive — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-0ac2fc242b6f2d7a845c",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.docs_slug_with_kb — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-ee4cc82e48e92765626b",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_tags — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-c788f6631f4638e529c9",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_category — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-8d2637e6f658aa52db36",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_doc_per_category — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-ffeb9509a169e51791b4",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_doc_post_meta — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-4061438a039ac985b083",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_search — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-c5862f12c4fcc2e6d54a",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_search_modal — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-ba2088671b68b406e4d7",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.reactions — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-134d2235a8344b2be6d9",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_social_share — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-50d6248630f9f7031eaa",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.estimated_reading_time — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-2ae23d9c54d9f5687363",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_toc — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-ffcc495a0ee845af9f9b",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_toc_collapse — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-49625e708960408de27d",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.auto_complete_search — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-df5083cb1545da66e9f5",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_search_redirect — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-b76ec6561222ea733635",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_disqus_comments — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-b164cb9051d8f8babdef",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_comments — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-02603d721d56bfe10e57",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_email_reporting — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-1fa5cc64ee4d8f134f63",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.monthly_email_summary — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-c81cb6367376374e2f64",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_instant_answer — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-263384f275e255abbdff",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_ai_powered_search — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-210e6e5eef694ca07c9f",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_ai_writing_assistant — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-b5c0e35620d6cc076148",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_quality_score — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-b72eba4cc04c0e3fe581",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_summary — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-054c3a939c9f07749577",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            },
+            {
+              "title": "01e.enable_print — toggle round-trip",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "e4639ae1cc3746790933-32778172fca329dffb4e",
+              "file": "01e-settings-deep.spec.js",
+              "line": 47,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "01f-frontend-interactions.spec.js",
+      "file": "01f-frontend-interactions.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "01f · Frontend interactions",
+          "file": "01f-frontend-interactions.spec.js",
+          "line": 21,
+          "column": 15,
+          "specs": [
+            {
+              "title": "01f.1 search modal opens + accepts query",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3a5e72fb421eb580231d-8900ac180bcf094e56a6",
+              "file": "01f-frontend-interactions.spec.js",
+              "line": 56,
+              "column": 5
+            },
+            {
+              "title": "01f.2 reactions button visible on doc",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3a5e72fb421eb580231d-7417e492cceb6eb3da90",
+              "file": "01f-frontend-interactions.spec.js",
+              "line": 78,
+              "column": 5
+            },
+            {
+              "title": "01f.3 TOC visible on doc with H2/H3",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3a5e72fb421eb580231d-2424c28110ea8f5c5f01",
+              "file": "01f-frontend-interactions.spec.js",
+              "line": 91,
+              "column": 5
+            },
+            {
+              "title": "01f.4 breadcrumb visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3a5e72fb421eb580231d-0d3a5e503d29270e55de",
+              "file": "01f-frontend-interactions.spec.js",
+              "line": 104,
+              "column": 5
+            },
+            {
+              "title": "01f.5 social-share buttons visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3a5e72fb421eb580231d-ba47012cbe778912959a",
+              "file": "01f-frontend-interactions.spec.js",
+              "line": 117,
+              "column": 5
+            },
+            {
+              "title": "01f.6 reading-time indicator visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3a5e72fb421eb580231d-1ce30e0e0d9d083a0fb8",
+              "file": "01f-frontend-interactions.spec.js",
+              "line": 130,
+              "column": 5
+            },
+            {
+              "title": "01f.7 print button on doc",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3a5e72fb421eb580231d-87bb32d30062249f23b1",
+              "file": "01f-frontend-interactions.spec.js",
+              "line": 143,
+              "column": 5
+            },
+            {
+              "title": "01f.99 cleanup",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3a5e72fb421eb580231d-123abfcee6d3090569c4",
+              "file": "01f-frontend-interactions.spec.js",
+              "line": 161,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "01g-layouts.spec.js",
+      "file": "01g-layouts.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "01g · Layout matrix",
+          "file": "01g-layouts.spec.js",
+          "line": 16,
+          "column": 15,
+          "specs": [
+            {
+              "title": "01g.single.layout-1 — frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-2fcf8e85c064c68ae18f",
+              "file": "01g-layouts.spec.js",
+              "line": 39,
+              "column": 9
+            },
+            {
+              "title": "01g.single.layout-2 — frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-bdc2070e079162f54f48",
+              "file": "01g-layouts.spec.js",
+              "line": 39,
+              "column": 9
+            },
+            {
+              "title": "01g.single.layout-3 — frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-80eeb29bad5d843ce893",
+              "file": "01g-layouts.spec.js",
+              "line": 39,
+              "column": 9
+            },
+            {
+              "title": "01g.single.layout-4 — frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-183ad97c3823d11e16ae",
+              "file": "01g-layouts.spec.js",
+              "line": 39,
+              "column": 9
+            },
+            {
+              "title": "01g.single.layout-5 — frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-3a2ef0ebc6b1401d6bd6",
+              "file": "01g-layouts.spec.js",
+              "line": 39,
+              "column": 9
+            },
+            {
+              "title": "01g.single.layout-6 — frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-08d4b87421aed3ea169f",
+              "file": "01g-layouts.spec.js",
+              "line": 39,
+              "column": 9
+            },
+            {
+              "title": "01g.single.layout-7 — frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-a7b9f1d1eb448e4df4ff",
+              "file": "01g-layouts.spec.js",
+              "line": 39,
+              "column": 9
+            },
+            {
+              "title": "01g.single.layout-8 — frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-51dbf10b578e1f0aa23a",
+              "file": "01g-layouts.spec.js",
+              "line": 39,
+              "column": 9
+            },
+            {
+              "title": "01g.single.layout-9 — frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-4de56f0c1c45fc0e215e",
+              "file": "01g-layouts.spec.js",
+              "line": 39,
+              "column": 9
+            },
+            {
+              "title": "01g.single.layout-10 — frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-d8402988855bd1bc0656",
+              "file": "01g-layouts.spec.js",
+              "line": 39,
+              "column": 9
+            },
+            {
+              "title": "01g.archive.layout-1 — frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-6dd3f4bab0cb17490d0b",
+              "file": "01g-layouts.spec.js",
+              "line": 55,
+              "column": 9
+            },
+            {
+              "title": "01g.archive.layout-2 — frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-6232ffeabfa964a89156",
+              "file": "01g-layouts.spec.js",
+              "line": 55,
+              "column": 9
+            },
+            {
+              "title": "01g.archive.layout-3 — frontend renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-8229e76f235145db3526",
+              "file": "01g-layouts.spec.js",
+              "line": 55,
+              "column": 9
+            },
+            {
+              "title": "01g.cleanup",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a91de1b6c0ba68366d23-47c7679107938bcf8bac",
+              "file": "01g-layouts.spec.js",
+              "line": 67,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "01h-permalink-structures.spec.js",
+      "file": "01h-permalink-structures.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "01h · Permalink structures",
+          "file": "01h-permalink-structures.spec.js",
+          "line": 32,
+          "column": 15,
+          "specs": [
+            {
+              "title": "01h.plain — /docs/ doesn't 404",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "6b650d8c537e0f2c6141-7d5d31f262fa73a39fae",
+              "file": "01h-permalink-structures.spec.js",
+              "line": 57,
+              "column": 9
+            },
+            {
+              "title": "01h.day-name — /docs/ doesn't 404",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "6b650d8c537e0f2c6141-b17a6b0e10d0dd09b244",
+              "file": "01h-permalink-structures.spec.js",
+              "line": 57,
+              "column": 9
+            },
+            {
+              "title": "01h.month-name — /docs/ doesn't 404",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "6b650d8c537e0f2c6141-989674defd1b9d87973d",
+              "file": "01h-permalink-structures.spec.js",
+              "line": 57,
+              "column": 9
+            },
+            {
+              "title": "01h.post-name — /docs/ doesn't 404",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "6b650d8c537e0f2c6141-2eb4479cca6a3fb4fa86",
+              "file": "01h-permalink-structures.spec.js",
+              "line": 57,
+              "column": 9
+            },
+            {
+              "title": "01h.numeric — /docs/ doesn't 404",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "6b650d8c537e0f2c6141-c6865a209d69d4410c96",
+              "file": "01h-permalink-structures.spec.js",
+              "line": 57,
+              "column": 9
+            },
+            {
+              "title": "01h.custom — /docs/ doesn't 404",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "6b650d8c537e0f2c6141-dc8ff85312c9691debbc",
+              "file": "01h-permalink-structures.spec.js",
+              "line": 57,
+              "column": 9
+            },
+            {
+              "title": "01h.restore — post-name",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "6b650d8c537e0f2c6141-5469ba202b300dfe0256",
+              "file": "01h-permalink-structures.spec.js",
+              "line": 72,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "01i-edge-cases.spec.js",
+      "file": "01i-edge-cases.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "01i · Edge cases",
+          "file": "01i-edge-cases.spec.js",
+          "line": 14,
+          "column": 15,
+          "specs": [
+            {
+              "title": "01i.1 doc with very long title",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "2d2198e6fbc4f7cfb1fb-7156ef1d1c1bae90bd64",
+              "file": "01i-edge-cases.spec.js",
+              "line": 22,
+              "column": 5
+            },
+            {
+              "title": "01i.2 doc with non-ASCII (Bengali) title",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "2d2198e6fbc4f7cfb1fb-b4c8c312c2cfcbe576e2",
+              "file": "01i-edge-cases.spec.js",
+              "line": 34,
+              "column": 5
+            },
+            {
+              "title": "01i.3 hierarchical categories — parent + child",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "2d2198e6fbc4f7cfb1fb-ccc2622537595e03b3f7",
+              "file": "01i-edge-cases.spec.js",
+              "line": 47,
+              "column": 5
+            },
+            {
+              "title": "01i.4 doc without category",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "2d2198e6fbc4f7cfb1fb-4384b1a2286a01c913d4",
+              "file": "01i-edge-cases.spec.js",
+              "line": 66,
+              "column": 5
+            },
+            {
+              "title": "01i.5 draft doc not visible to guest",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "2d2198e6fbc4f7cfb1fb-ed087c4792a11a9782d9",
+              "file": "01i-edge-cases.spec.js",
+              "line": 76,
+              "column": 5
+            },
+            {
+              "title": "01i.6 password-protected doc shows password form",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "2d2198e6fbc4f7cfb1fb-c0e5e5f049ca16f25f0d",
+              "file": "01i-edge-cases.spec.js",
+              "line": 94,
+              "column": 5
+            },
+            {
+              "title": "01i.99 cleanup",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier1-free",
+                  "projectName": "tier1-free",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "2d2198e6fbc4f7cfb1fb-e58101070b2797d8d740",
+              "file": "01i-edge-cases.spec.js",
+              "line": 125,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "02-tier2-pro.spec.js",
+      "file": "02-tier2-pro.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Tier 2 · BetterDocs Pro",
+          "file": "02-tier2-pro.spec.js",
+          "line": 24,
+          "column": 15,
+          "specs": [
+            {
+              "title": "2.1 Settings tabs inventory (Pro tier should expose Access & Restrictions, Git Sync, Migration, License)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "51cbc6083089445b4770-c38a7ee7a452ad37813e",
+              "file": "02-tier2-pro.spec.js",
+              "line": 36,
+              "column": 5
+            },
+            {
+              "title": "2.2 Walk every Pro settings tab + screenshot",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "51cbc6083089445b4770-11b61cf75c7bd27f9ddb",
+              "file": "02-tier2-pro.spec.js",
+              "line": 48,
+              "column": 5
+            },
+            {
+              "title": "2.3 Enable Multiple KB + create a KB term",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "51cbc6083089445b4770-fedc515705ec821a4018",
+              "file": "02-tier2-pro.spec.js",
+              "line": 63,
+              "column": 5
+            },
+            {
+              "title": "2.4 Doc inside MKB-scoped category renders on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "51cbc6083089445b4770-e8ebef7b837b50268c82",
+              "file": "02-tier2-pro.spec.js",
+              "line": 78,
+              "column": 5
+            },
+            {
+              "title": "2.5 Analytics page loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "51cbc6083089445b4770-727be25a1b4819a2dd9c",
+              "file": "02-tier2-pro.spec.js",
+              "line": 99,
+              "column": 5
+            },
+            {
+              "title": "2.6 Access & Restrictions tab — open + screenshot",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "51cbc6083089445b4770-8e10cce35fc632c6b194",
+              "file": "02-tier2-pro.spec.js",
+              "line": 106,
+              "column": 5
+            },
+            {
+              "title": "2.7 Git Sync tab — open + screenshot",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "51cbc6083089445b4770-64e81693b3e2c0aabbc9",
+              "file": "02-tier2-pro.spec.js",
+              "line": 120,
+              "column": 5
+            },
+            {
+              "title": "2.8 License tab — open + screenshot",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "51cbc6083089445b4770-95548bd4bc9739f42a60",
+              "file": "02-tier2-pro.spec.js",
+              "line": 134,
+              "column": 5
+            },
+            {
+              "title": "2.99 Cleanup tier-2 entities",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "51cbc6083089445b4770-5a6e6a00ee7dea988038",
+              "file": "02-tier2-pro.spec.js",
+              "line": 148,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "02b-tier2-extended.spec.js",
+      "file": "02b-tier2-extended.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Tier 2b · Pro extended",
+          "file": "02b-tier2-extended.spec.js",
+          "line": 20,
+          "column": 15,
+          "specs": [
+            {
+              "title": "2b.1 Related Docs — 3 docs in same category, verify related list",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7331bb308748c84ca0b7-0bbdf59dc364b9290b0d",
+              "file": "02b-tier2-extended.spec.js",
+              "line": 28,
+              "column": 5
+            },
+            {
+              "title": "2b.2 Access & Restrictions — enable + restrict a category, verify guest sees nothing",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7331bb308748c84ca0b7-6fd40ee845ed28143159",
+              "file": "02b-tier2-extended.spec.js",
+              "line": 65,
+              "column": 5
+            },
+            {
+              "title": "2b.3 Single-doc edit screen — Related Articles meta box present",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7331bb308748c84ca0b7-4d83dbea26173feef59e",
+              "file": "02b-tier2-extended.spec.js",
+              "line": 105,
+              "column": 5
+            },
+            {
+              "title": "2b.4 Migration tab options visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7331bb308748c84ca0b7-a719c686ec11b1503830",
+              "file": "02b-tier2-extended.spec.js",
+              "line": 125,
+              "column": 5
+            },
+            {
+              "title": "2b.5 Import / Export — verify CSV/XML download button present",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7331bb308748c84ca0b7-6ce2517bbe6418c82518",
+              "file": "02b-tier2-extended.spec.js",
+              "line": 142,
+              "column": 5
+            },
+            {
+              "title": "2b.6 Analytics — verify charts / counters render (smoke)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7331bb308748c84ca0b7-f37b01bd05ab43bfb9e6",
+              "file": "02b-tier2-extended.spec.js",
+              "line": 159,
+              "column": 5
+            },
+            {
+              "title": "2b.99 Cleanup tier-2b entities",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7331bb308748c84ca0b7-62893b3e997b11e0ea07",
+              "file": "02b-tier2-extended.spec.js",
+              "line": 169,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "02c-roles.spec.js",
+      "file": "02c-roles.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "02c · Per-role visibility",
+          "file": "02c-roles.spec.js",
+          "line": 20,
+          "column": 15,
+          "specs": [
+            {
+              "title": "02c.1 Subscriber can VIEW frontend /docs/ but cannot reach /wp-admin/",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b726b8e706ac3b0cb38e-5ebae9b87f03dec70db3",
+              "file": "02c-roles.spec.js",
+              "line": 48,
+              "column": 5
+            },
+            {
+              "title": "02c.2 Editor can edit docs",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b726b8e706ac3b0cb38e-211d29668c6b75550072",
+              "file": "02c-roles.spec.js",
+              "line": 68,
+              "column": 5
+            },
+            {
+              "title": "02c.3 Contributor cannot publish, only draft",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b726b8e706ac3b0cb38e-1e9e9020f64263ef8a43",
+              "file": "02c-roles.spec.js",
+              "line": 86,
+              "column": 5
+            },
+            {
+              "title": "02c.4 Logged-out guest cannot access wp-admin",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b726b8e706ac3b0cb38e-639d75bdb09fcb74dca1",
+              "file": "02c-roles.spec.js",
+              "line": 105,
+              "column": 5
+            },
+            {
+              "title": "02c.99 cleanup users",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b726b8e706ac3b0cb38e-8ecda3e863654d6d0d90",
+              "file": "02c-roles.spec.js",
+              "line": 114,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "02d-mkb-deep.spec.js",
+      "file": "02d-mkb-deep.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "02d · MKB-deep",
+          "file": "02d-mkb-deep.spec.js",
+          "line": 12,
+          "column": 15,
+          "specs": [
+            {
+              "title": "02d.1 create 2 KBs",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "4e768ca22d1750abd77c-ebd4c084c00e80e954e5",
+              "file": "02d-mkb-deep.spec.js",
+              "line": 21,
+              "column": 5
+            },
+            {
+              "title": "02d.2 each KB has its own category",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "4e768ca22d1750abd77c-fa91c59ef4d05e01824c",
+              "file": "02d-mkb-deep.spec.js",
+              "line": 29,
+              "column": 5
+            },
+            {
+              "title": "02d.3 docs in each KB+category render on frontend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "4e768ca22d1750abd77c-4a7b91142448a93f9623",
+              "file": "02d-mkb-deep.spec.js",
+              "line": 37,
+              "column": 5
+            },
+            {
+              "title": "02d.4 KB archive URL renders for each KB",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "4e768ca22d1750abd77c-9fcaf744bbfe56f93671",
+              "file": "02d-mkb-deep.spec.js",
+              "line": 55,
+              "column": 5
+            },
+            {
+              "title": "02d.99 cleanup",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "4e768ca22d1750abd77c-e74f378a3edbe1cae78b",
+              "file": "02d-mkb-deep.spec.js",
+              "line": 69,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "02e-elementor-widgets.spec.js",
+      "file": "02e-elementor-widgets.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "02e · Elementor widget panel",
+          "file": "02e-elementor-widgets.spec.js",
+          "line": 17,
+          "column": 15,
+          "specs": [
+            {
+              "title": "02e.1 Elementor editor loads on a page with BetterDocs widgets",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7d9bcbb616550d038e42-55abdac2cf8e48305196",
+              "file": "02e-elementor-widgets.spec.js",
+              "line": 31,
+              "column": 5
+            },
+            {
+              "title": "02e.2 Widget panel search returns BetterDocs widgets",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7d9bcbb616550d038e42-da0f87ced5d9431c15ea",
+              "file": "02e-elementor-widgets.spec.js",
+              "line": 42,
+              "column": 5
+            },
+            {
+              "title": "02e.99 cleanup",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7d9bcbb616550d038e42-d7c0384b8782ad89dbe4",
+              "file": "02e-elementor-widgets.spec.js",
+              "line": 72,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "02f-access-restrictions-deep.spec.js",
+      "file": "02f-access-restrictions-deep.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "02f · Access & Restrictions deep",
+          "file": "02f-access-restrictions-deep.spec.js",
+          "line": 43,
+          "column": 15,
+          "specs": [
+            {
+              "title": "02f.setup — seed (optional) KBs + categories + docs",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a582704ef45016c4a2c9-4e5e4d668978aaaca3b4",
+              "file": "02f-access-restrictions-deep.spec.js",
+              "line": 53,
+              "column": 5
+            },
+            {
+              "title": "02f.1 advanced — restrict Cat-A to admin only, then switch to Author",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a582704ef45016c4a2c9-94736b5d3d88dff957f9",
+              "file": "02f-access-restrictions-deep.spec.js",
+              "line": 89,
+              "column": 5
+            },
+            {
+              "title": "02f.2 simple — restrict Cat-A to logged-in users, guest should be blocked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a582704ef45016c4a2c9-18130d85136c4401e01e",
+              "file": "02f-access-restrictions-deep.spec.js",
+              "line": 153,
+              "column": 5
+            },
+            {
+              "title": "02f.3 negative — guest can still see UNrestricted Doc-B during restriction",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a582704ef45016c4a2c9-a4fdfb62df6c3890da8d",
+              "file": "02f-access-restrictions-deep.spec.js",
+              "line": 196,
+              "column": 5
+            },
+            {
+              "title": "02f.4 archive — /docs/ archive should NOT list restricted Doc-A to a guest",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a582704ef45016c4a2c9-9742b8872a886ef19079",
+              "file": "02f-access-restrictions-deep.spec.js",
+              "line": 225,
+              "column": 5
+            },
+            {
+              "title": "02f.99 cleanup",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a582704ef45016c4a2c9-87f55020f69d4988837f",
+              "file": "02f-access-restrictions-deep.spec.js",
+              "line": 266,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "02g-faq-glossary-frontend.spec.js",
+      "file": "02g-faq-glossary-frontend.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "02g · FAQ / FAQ Group / Glossary frontend",
+          "file": "02g-faq-glossary-frontend.spec.js",
+          "line": 70,
+          "column": 15,
+          "specs": [
+            {
+              "title": "02g.1 FAQ — create + admin list shows it + shortcode page renders (best-effort)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8aa1fe5896c9a5dbb74f-6d0e773f33256e142398",
+              "file": "02g-faq-glossary-frontend.spec.js",
+              "line": 79,
+              "column": 5
+            },
+            {
+              "title": "02g.2 FAQ Group — create group + assign FAQ + frontend filters by group",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8aa1fe5896c9a5dbb74f-1c863f8f0e9d19e2b880",
+              "file": "02g-faq-glossary-frontend.spec.js",
+              "line": 134,
+              "column": 5
+            },
+            {
+              "title": "02g.3 Glossary — create entry + frontend renders via shortcode",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8aa1fe5896c9a5dbb74f-e80afd9e7af0e041c829",
+              "file": "02g-faq-glossary-frontend.spec.js",
+              "line": 186,
+              "column": 5
+            },
+            {
+              "title": "02g.4 Glossary — single-term archive renders definition",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8aa1fe5896c9a5dbb74f-c2d75bfe36bac56049fa",
+              "file": "02g-faq-glossary-frontend.spec.js",
+              "line": 227,
+              "column": 5
+            },
+            {
+              "title": "02g.99 cleanup",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier2-pro",
+                  "projectName": "tier2-pro",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "8aa1fe5896c9a5dbb74f-7b3497d4cea7c9d3319e",
+              "file": "02g-faq-glossary-frontend.spec.js",
+              "line": 245,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "03-tier3-chatbot.spec.js",
+      "file": "03-tier3-chatbot.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Tier 3 · BetterDocs Chatbot",
+          "file": "03-tier3-chatbot.spec.js",
+          "line": 18,
+          "column": 15,
+          "specs": [
+            {
+              "title": "3.1 Chatbot admin landing page loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier3-chatbot",
+                  "projectName": "tier3-chatbot",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "46dfd7c73512902782db-954aa4e4e5c1c1e9fc0f",
+              "file": "03-tier3-chatbot.spec.js",
+              "line": 30,
+              "column": 5
+            },
+            {
+              "title": "3.2 AI Chatbot settings tab opens",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier3-chatbot",
+                  "projectName": "tier3-chatbot",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "46dfd7c73512902782db-9b147e0bbf7b83d437bf",
+              "file": "03-tier3-chatbot.spec.js",
+              "line": 37,
+              "column": 5
+            },
+            {
+              "title": "3.3 AI Chatbot Logs gating — enable then verify submenu appears",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier3-chatbot",
+                  "projectName": "tier3-chatbot",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "46dfd7c73512902782db-36e55e57c99d4ea95284",
+              "file": "03-tier3-chatbot.spec.js",
+              "line": 51,
+              "column": 5
+            },
+            {
+              "title": "3.4 Frontend chat bubble appears on docs single",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier3-chatbot",
+                  "projectName": "tier3-chatbot",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "46dfd7c73512902782db-6e9ce4d0dd3d9ed9207b",
+              "file": "03-tier3-chatbot.spec.js",
+              "line": 96,
+              "column": 5
+            },
+            {
+              "title": "3.5 Chatbot AJAX endpoints exist (smoke)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier3-chatbot",
+                  "projectName": "tier3-chatbot",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "46dfd7c73512902782db-cd2268b0eab58cd07a7e",
+              "file": "03-tier3-chatbot.spec.js",
+              "line": 110,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "03b-tier3-extended.spec.js",
+      "file": "03b-tier3-extended.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Tier 3b · Chatbot extended",
+          "file": "03b-tier3-extended.spec.js",
+          "line": 15,
+          "column": 15,
+          "specs": [
+            {
+              "title": "3b.1 AI Chatbot Logs page renders cleanly when empty",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier3-chatbot",
+                  "projectName": "tier3-chatbot",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c65cbb180460d24c4f25-cd98d087af3e8bc3a70d",
+              "file": "03b-tier3-extended.spec.js",
+              "line": 23,
+              "column": 5
+            },
+            {
+              "title": "3b.2 Chatbot REST namespace is registered",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier3-chatbot",
+                  "projectName": "tier3-chatbot",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c65cbb180460d24c4f25-0cc40cd6a1b572891363",
+              "file": "03b-tier3-extended.spec.js",
+              "line": 41,
+              "column": 5
+            },
+            {
+              "title": "3b.3 Chatbot settings round-trip — enable persists",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier3-chatbot",
+                  "projectName": "tier3-chatbot",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c65cbb180460d24c4f25-e79a92e5268a79d86c5a",
+              "file": "03b-tier3-extended.spec.js",
+              "line": 53,
+              "column": 5
+            },
+            {
+              "title": "3b.4 Frontend — chatbot CSS/JS assets are enqueued on /docs/",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier3-chatbot",
+                  "projectName": "tier3-chatbot",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c65cbb180460d24c4f25-01a2148e58d18a19e2fc",
+              "file": "03b-tier3-extended.spec.js",
+              "line": 79,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "03c-chatbot-conversation.spec.js",
+      "file": "03c-chatbot-conversation.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "03c · Chatbot conversation",
+          "file": "03c-chatbot-conversation.spec.js",
+          "line": 17,
+          "column": 15,
+          "specs": [
+            {
+              "title": "03c.1 chatbot REST query-post endpoint responds",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier3-chatbot",
+                  "projectName": "tier3-chatbot",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ec6c94d3031daadf28f2-b84946e9139b0b5fa9f8",
+              "file": "03c-chatbot-conversation.spec.js",
+              "line": 25,
+              "column": 5
+            },
+            {
+              "title": "03c.2 frontend chatbot bubble click opens panel",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier3-chatbot",
+                  "projectName": "tier3-chatbot",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ec6c94d3031daadf28f2-d6685038c11eec37e865",
+              "file": "03c-chatbot-conversation.spec.js",
+              "line": 47,
+              "column": 5
+            },
+            {
+              "title": "03c.3 chatbot send a message + capture response",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier3-chatbot",
+                  "projectName": "tier3-chatbot",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ec6c94d3031daadf28f2-5e5d64e5dd116c524cd9",
+              "file": "03c-chatbot-conversation.spec.js",
+              "line": 62,
+              "column": 5
+            },
+            {
+              "title": "03c.4 chatbot history admin page renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "tier3-chatbot",
+                  "projectName": "tier3-chatbot",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "ec6c94d3031daadf28f2-28caf437f71d7c0ba637",
+              "file": "03c-chatbot-conversation.spec.js",
+              "line": 87,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "04-themes-matrix.spec.js",
+      "file": "04-themes-matrix.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "04 · Theme matrix",
+          "file": "04-themes-matrix.spec.js",
+          "line": 50,
+          "column": 15,
+          "specs": [
+            {
+              "title": "04.fse-twentytwentyfour — frontend /docs/ under Twenty Twenty-Four",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "themes",
+                  "projectName": "themes",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "9b5dc34abd11ccf27eb9-e61ee1aa50ffce318a99",
+              "file": "04-themes-matrix.spec.js",
+              "line": 52,
+              "column": 9
+            },
+            {
+              "title": "04.fse-twentytwentyfive — frontend /docs/ under Twenty Twenty-Five",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "themes",
+                  "projectName": "themes",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "9b5dc34abd11ccf27eb9-f74081e83efbfb40e632",
+              "file": "04-themes-matrix.spec.js",
+              "line": 52,
+              "column": 9
+            },
+            {
+              "title": "04.theme-builder-hello-elementor — frontend /docs/ under Hello Elementor",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "themes",
+                  "projectName": "themes",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "9b5dc34abd11ccf27eb9-d72ba54f18416cc0ac22",
+              "file": "04-themes-matrix.spec.js",
+              "line": 52,
+              "column": 9
+            },
+            {
+              "title": "04.legacy-twentytwentyone — frontend /docs/ under Twenty Twenty-One",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "themes",
+                  "projectName": "themes",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "9b5dc34abd11ccf27eb9-47379fcb81390409d1e7",
+              "file": "04-themes-matrix.spec.js",
+              "line": 52,
+              "column": 9
+            },
+            {
+              "title": "04.legacy-astra — frontend /docs/ under Astra",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "themes",
+                  "projectName": "themes",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "9b5dc34abd11ccf27eb9-8f580bbf648d9b34a730",
+              "file": "04-themes-matrix.spec.js",
+              "line": 52,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "99-cleanup.spec.js",
+      "file": "99-cleanup.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Cleanup",
+          "file": "99-cleanup.spec.js",
+          "line": 12,
+          "column": 15,
+          "specs": [
+            {
+              "title": "Nuke QA-* posts and taxonomies",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "99-cleanup",
+                  "projectName": "99-cleanup",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "55a9481743b5affd2c40-340dd2a73dc86acb1c88",
+              "file": "99-cleanup.spec.js",
+              "line": 13,
+              "column": 5
+            },
+            {
+              "title": "Disable Multiple KB toggle",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "99-cleanup",
+                  "projectName": "99-cleanup",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "55a9481743b5affd2c40-c5289f899452e23229d0",
+              "file": "99-cleanup.spec.js",
+              "line": 46,
+              "column": 5
+            },
+            {
+              "title": "Deactivate all plugins (return to clean baseline)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "99-cleanup",
+                  "projectName": "99-cleanup",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "55a9481743b5affd2c40-cbaa52c0304bffc65579",
+              "file": "99-cleanup.spec.js",
+              "line": 50,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-12T18:14:03.964Z",
+    "duration": 165.73900000000003,
+    "expected": 0,
+    "skipped": 182,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

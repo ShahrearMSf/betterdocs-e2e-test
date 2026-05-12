@@ -1,36 +1,3 @@
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 /**
  * Tier 1 — BetterDocs Free alone (+ Essential Blocks).
  *
@@ -49,7 +16,7 @@ var __importStar = (this && this.__importStar) || (function () {
  * Stores created entity IDs on the test scope for the cleanup spec to consume.
  */
 const { test, expect } = require("@playwright/test");
-const { loginAsAdmin, gotoAdmin } = require("../../helpers/staging/auth");
+const { loginAsAdmin, gotoAdmin, getRestNonce } = require("../../helpers/staging/auth");
 const { setTier } = require("../../helpers/staging/plugins");
 const { createDocCategory, createDocTag, createDoc, createFaq, createGlossary, deleteDoc, deleteFaq, deleteGlossary, deleteDocTag, deleteDocCategory } = require("../../helpers/staging/records");
 const { logRename, listSettingsTabs } = require("../../helpers/staging/settings");
@@ -123,7 +90,7 @@ test.describe.serial('Tier 1 · BetterDocs Free', () => {
     test('1.4 Toggle a setting + verify reflection on frontend', async ({ page, browser }) => {
         // Toggle "Disable BetterDocs Built-in Doc Page" via REST so we don't depend on UI labels
         await loginAsAdmin(page);
-        const { getRestNonce } = await Promise.resolve().then(() => __importStar(require('../../helpers/staging/auth')));
+        
         const nonce = await getRestNonce(page);
         // Enable breadcrumb — a small change that's easy to verify
         await page.evaluate(async ([nonce, url]) => {

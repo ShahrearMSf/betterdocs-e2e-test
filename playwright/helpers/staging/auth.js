@@ -50,10 +50,34 @@ async function loginAsAdmin(page, attempt = 1) {
             await userField.fill(STAGING.user);
             await page.locator('#user_pass').fill(STAGING.pass);
         }
-        await Promise.all([
-            page.waitForLoadState('domcontentloaded'),
-            page.click('#wp-submit'),
-        ]);
+        // Retry the submit + nav up to 3 times. On a loaded staging site the click
+        // can hang transiently (browser stuck, server slow); a quick retry usually clears it.
+        let submitErr;
+        for (let n = 1; n <= 3; n++) {
+            try {
+                await Promise.all([
+                    page.waitForLoadState('domcontentloaded'),
+                    page.click('#wp-submit', { timeout: 20_000 }),
+                ]);
+                submitErr = null;
+                break;
+            } catch (e) {
+                submitErr = e;
+                await page.waitForTimeout(2000 * n);
+                // If we somehow already landed on wp-admin (race), bail out of the retry loop
+                if (page.url().includes('/wp-admin/')) {
+                    submitErr = null;
+                    break;
+                }
+                // Otherwise, reload the login page and re-fill before the next attempt
+                if (n < 3) {
+                    await page.goto(`${STAGING.url}/wp-login.php`, { waitUntil: 'domcontentloaded', timeout: 30_000 }).catch(() => { });
+                    await page.locator('#user_login').fill(STAGING.user).catch(() => { });
+                    await page.locator('#user_pass').fill(STAGING.pass).catch(() => { });
+                }
+            }
+        }
+        if (submitErr) throw submitErr;
         await page.waitForTimeout(1500);
     }
     await dismissInterstitials(page);
@@ -177,10 +201,28 @@ async function loginAsUser(page, login, pass) {
         await page.locator('#user_pass').fill('');
         await page.locator('#user_pass').fill(pass);
     }
-    await Promise.all([
-        page.waitForLoadState('domcontentloaded'),
-        page.click('#wp-submit'),
-    ]);
+    // Retry the submit + nav up to 3 times (matches loginAsAdmin).
+    let submitErr;
+    for (let n = 1; n <= 3; n++) {
+        try {
+            await Promise.all([
+                page.waitForLoadState('domcontentloaded'),
+                page.click('#wp-submit', { timeout: 20_000 }),
+            ]);
+            submitErr = null;
+            break;
+        } catch (e) {
+            submitErr = e;
+            await page.waitForTimeout(2000 * n);
+            if (page.url().includes('/wp-admin/')) { submitErr = null; break; }
+            if (n < 3) {
+                await page.goto(`${STAGING.url}/wp-login.php`, { waitUntil: 'domcontentloaded', timeout: 30_000 }).catch(() => { });
+                await page.locator('#user_login').fill(login).catch(() => { });
+                await page.locator('#user_pass').fill(pass).catch(() => { });
+            }
+        }
+    }
+    if (submitErr) throw submitErr;
     await page.waitForTimeout(1500);
     await dismissInterstitials(page);
 }
