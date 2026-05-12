@@ -1,0 +1,41 @@
+name: BetterDocs Performance Audit
+
+on:
+  workflow_dispatch:
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Setup WordPress & Plugins
+      env:
+        ESSENTIAL_BLOCKS_PAT: ${{ secrets.ESSENTIAL_BLOCKS_PAT }}
+      run: |
+        bash scripts/install-wp.sh
+        bash scripts/install-plugins.sh
+        bash scripts/create-demo-content.sh
+
+    - name: Start WP server
+      run: |
+        nohup wp server --host=127.0.0.1 --port=8080 --path=./test-site --allow-root > wpserver.log 2>&1 &
+        sleep 10
+
+    - name: Run Lighthouse
+      run: |
+        mkdir -p reports/performance
+        npx lighthouse http://127.0.0.1:8080 --output html --output-path ./reports/performance/home.html --chrome-flags='--headless --no-sandbox'
+        npx lighthouse http://127.0.0.1:8080/documentation-archive/ --output html --output-path ./reports/performance/archive.html --chrome-flags='--headless --no-sandbox'
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: performance-reports
+        path: reports/performance/

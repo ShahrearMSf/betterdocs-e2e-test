@@ -1,0 +1,43 @@
+# Secrets & local config
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+.pnp/
+.pnp.js
+
+# Playwright build / cache
+.cache/
+test-results/
+test-results-staging/
+playwright-report/
+playwright-report-staging/
+playwright/.cache/
+playwright/.auth/
+
+# Run-time logs / artifacts
+*.log
+wpserver.log
+staging-renames-report.json
+
+# Local WP test sites (only used during development of the suite)
+test-site/
+test-site-sqlite/
+wordpress/
+wp-content/
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+.history/
