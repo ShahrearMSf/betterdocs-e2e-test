@@ -54,14 +54,14 @@ jobs:
       - name: Run Playwright tests
         id: test-run
         continue-on-error: true
-        run: npx playwright test --config=playwright.staging.config.js --reporter=html,json
+        # Use the config's reporters (list + html → playwright-report-staging/ + json → results.json)
+        run: npx playwright test --config=playwright.staging.config.js
         env:
           STAGING_URL: ${{ secrets.STAGING_URL }}
           STAGING_USER: ${{ secrets.STAGING_USER }}
           STAGING_PASS: ${{ secrets.STAGING_PASS }}
           STAGING_AUTHOR_LOGIN: ${{ secrets.STAGING_AUTHOR_LOGIN }}
           STAGING_AUTHOR_PASS: ${{ secrets.STAGING_AUTHOR_PASS }}
-          PLAYWRIGHT_JSON_OUTPUT_NAME: results.json
 
       - name: Parse test results
         if: always()

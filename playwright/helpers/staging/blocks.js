@@ -1,4 +1,3 @@
-exports.SHORTCODES = exports.BLOCKS = void 0;
 const { STAGING } = require("./env");
 const { getRestNonce } = require("./auth");
 async function createPageWithContent(page, args) {
@@ -27,7 +26,7 @@ async function deletePage(page, id) {
     }, [STAGING.url, nonce, id]);
 }
 /** Common BetterDocs Gutenberg block payloads. */
-exports.BLOCKS = {
+const BLOCKS = {
     categoryGrid: '<!-- wp:betterdocs/categorygrid /-->',
     categoryBox: '<!-- wp:betterdocs/categorybox /-->',
     archiveList: '<!-- wp:betterdocs/archive-list /-->',
@@ -40,7 +39,8 @@ exports.BLOCKS = {
     tableOfContents: '<!-- wp:betterdocs/table-of-contents /-->',
     feedbackForm: '<!-- wp:betterdocs/feedback-form /-->',
 };
-exports.SHORTCODES = {
+
+const SHORTCODES = {
     categoryGrid: '[betterdocs_category_grid]',
     categoryBox: '[betterdocs_category_box]',
     categoryGrid3: '[betterdocs_category_grid_3]',
@@ -49,4 +49,4 @@ exports.SHORTCODES = {
     faq: '[betterdocs_faq]',
 };
 
-module.exports = { createPageWithContent, deletePage };
+module.exports = { BLOCKS, SHORTCODES, createPageWithContent, deletePage };
