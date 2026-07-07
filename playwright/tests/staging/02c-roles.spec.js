@@ -103,7 +103,10 @@ test.describe.serial('02c · Per-role visibility', () => {
         await ctx.close();
     });
     test('02c.4 Logged-out guest cannot access wp-admin', async ({ browser }) => {
-        const ctx = await browser.newContext();
+        // Explicit empty state — the project storageState (admin cookies)
+        // would otherwise apply here and this negative-path test would
+        // hit wp-admin instead of getting redirected to wp-login.
+        const ctx = await browser.newContext({ storageState: undefined });
         const page = await ctx.newPage();
         await page.goto(`${STAGING.url}/wp-admin/admin.php?page=betterdocs-settings`);
         await page.waitForTimeout(1500);

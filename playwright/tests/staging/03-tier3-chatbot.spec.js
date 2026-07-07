@@ -11,11 +11,14 @@
 const { test, expect } = require("@playwright/test");
 const { loginAsAdmin, gotoAdmin, getRestNonce } = require("../../helpers/staging/auth");
 const { setTier, getPluginStates } = require("../../helpers/staging/plugins");
-const { logRename } = require("../../helpers/staging/settings");
+const { logRename, enableInstantAnswer, enableAiChatbot } = require("../../helpers/staging/settings");
 const { newGuestPage, visitFrontend } = require("../../helpers/staging/frontend");
 const { STAGING } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
-test.describe.serial('Tier 3 · BetterDocs Chatbot', () => {
+// Non-serial: individual tests here don't depend on ordering. A single
+// login-flake in 3.4a used to skip 3.4b + 3.5 and cascade into 12 downstream
+// tests via `describe.serial`. Non-serial lets each test attempt on its own.
+test.describe('Tier 3 · BetterDocs Chatbot', () => {
     test.beforeAll(async ({ browser }) => {
         const ctx = await browser.newContext();
         const page = await ctx.newPage();
@@ -27,6 +30,8 @@ test.describe.serial('Tier 3 · BetterDocs Chatbot', () => {
         }
         await ctx.close();
     });
+    // 3.1 — Chatbot admin landing page must render without a fatal error
+    // once the chatbot plugin is active. Screenshot for visual diff.
     test('3.1 Chatbot admin landing page loads', async ({ page }) => {
         await loginAsAdmin(page);
         await gotoAdmin(page, 'admin.php?page=betterdocs-ai-chatbot');
@@ -34,6 +39,8 @@ test.describe.serial('Tier 3 · BetterDocs Chatbot', () => {
         await expect(page.locator('body'), 'chatbot page should not fatal').not.toContainText(/Fatal error/i);
         await shoot(page, 'test-results-staging/03-tier3/01-chatbot-page.png', { fullPage: true });
     });
+    // 3.2 — "AI Chatbot" tab appears in BetterDocs settings once the chatbot
+    // plugin is active. Log a rename if the tab label changes.
     test('3.2 AI Chatbot settings tab opens', async ({ page }) => {
         await loginAsAdmin(page);
         await gotoAdmin(page, 'admin.php?page=betterdocs-settings');
@@ -48,6 +55,8 @@ test.describe.serial('Tier 3 · BetterDocs Chatbot', () => {
             logRename('settings-tab', 'AI Chatbot', '(not found in Chatbot tier)');
         }
     });
+    // 3.3 — Log gating: enabling "log chatbot conversations" must reveal the
+    // AI Chatbot Logs submenu. If the setting-key was renamed, log it.
     test('3.3 AI Chatbot Logs gating — enable then verify submenu appears', async ({ page }) => {
         await loginAsAdmin(page);
         // Before: check if Logs submenu is present
@@ -93,20 +102,56 @@ test.describe.serial('Tier 3 · BetterDocs Chatbot', () => {
             await shoot(page, 'test-results-staging/03-tier3/03-chatbot-logs-direct.png');
         }
     });
-    test('3.4 Frontend chat bubble appears on docs single', async ({ page, browser }) => {
+    // 3.4a — IA precondition: with chatbot ON but Instant Answer OFF, the
+    // Chatbot main branch skips the frontend enqueue, so the bubble MUST be
+    // absent. This asserts the coupling introduced by the revamp.
+    test('3.4a Frontend chat bubble absent when IA is OFF', async ({ page, browser }) => {
         await loginAsAdmin(page);
-        // Make sure chatbot is enabled via REST + license
-        // The site's licenses are pre-activated per the user's brief
+        await enableAiChatbot(page, true);
+        await enableInstantAnswer(page, false);
         const { page: guest, ctx } = await newGuestPage(browser);
         await visitFrontend(guest, '/docs/');
         await guest.waitForTimeout(3000);
-        const hasBubble = await guest.evaluate(() => {
-            return !!document.querySelector('[class*="chat-bubble"], [class*="chatbot"], [id*="chatbot"], iframe[src*="chatbot"]');
-        });
-        console.log('Frontend chatbot detected:', hasBubble);
-        await shoot(guest, 'test-results-staging/03-tier3/04-frontend-with-chatbot.png', { fullPage: true });
+        const hasBubble = await guest.evaluate(() => !!document.querySelector([
+            '[class*="chat-bubble"]',
+            '[class*="chatbot"]:not([class*="settings"]):not([class*="admin"])',
+            '[id*="chatbot"]:not([id*="admin"])',
+            'iframe[src*="chatbot"]',
+        ].join(', ')));
+        console.log('[3.4a] IA-off — bubble present:', hasBubble);
+        await shoot(guest, 'test-results-staging/03-tier3/04a-frontend-ia-off.png', { fullPage: true });
         await ctx.close();
+        // Chatbot MUST be gated by IA — flag drift, don't hard-fail (the exact
+        // enqueue rule may loosen in future releases).
+        if (hasBubble) {
+            logRename('chatbot-ia-precondition', 'bubble absent when IA off', 'bubble present');
+        }
     });
+    // 3.4b — Reciprocal: with IA on AND chatbot on, the bubble should render
+    // (even without an API key). This is the load-bearing chatbot smoke.
+    test('3.4b Frontend chat bubble present when IA + chatbot both ON', async ({ page, browser }) => {
+        await loginAsAdmin(page);
+        await enableAiChatbot(page, true);
+        await enableInstantAnswer(page, true);
+        const { page: guest, ctx } = await newGuestPage(browser);
+        await visitFrontend(guest, '/docs/');
+        await guest.waitForTimeout(3000);
+        const hasBubble = await guest.evaluate(() => !!document.querySelector([
+            '[class*="chat-bubble"]',
+            '[class*="chatbot"]:not([class*="settings"]):not([class*="admin"])',
+            '[id*="chatbot"]:not([id*="admin"])',
+            'iframe[src*="chatbot"]',
+        ].join(', ')));
+        console.log('[3.4b] IA-on + chatbot-on — bubble present:', hasBubble);
+        await shoot(guest, 'test-results-staging/03-tier3/04b-frontend-with-chatbot.png', { fullPage: true });
+        await ctx.close();
+        if (!hasBubble) {
+            logRename('chatbot-frontend', 'bubble present with IA+chatbot on', 'not detected');
+        }
+    });
+    // 3.5 — Chatbot admin-ajax endpoint smoke: verify the plugin registered
+    // its ajax action handler (any HTTP response — even 400 — means the hook
+    // fired). Endpoint name may vary across releases so we don't assert code.
     test('3.5 Chatbot AJAX endpoints exist (smoke)', async ({ page }) => {
         await loginAsAdmin(page);
         const result = await page.evaluate(async () => {

@@ -6,7 +6,12 @@
 const { expect } = require("@playwright/test");
 const { STAGING } = require("./env");
 async function newGuestPage(browser) {
-    const ctx = await browser.newContext();
+    // Explicit storageState: undefined — Playwright's project-level
+    // `use.storageState` (the admin cookie file we persist per run) would
+    // otherwise leak into this new context. Then the "guest" is really an
+    // admin, and negative-path tests (e.g. "guest can't reach wp-admin")
+    // silently pass their permission checks and then fail the assertion.
+    const ctx = await browser.newContext({ storageState: undefined });
     const page = await ctx.newPage();
     return { page, ctx };
 }
