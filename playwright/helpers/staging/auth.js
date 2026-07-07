@@ -1,5 +1,27 @@
 const { STAGING } = require("./env");
 /**
+ * Fill the wp-login user + password fields with clear-then-fill semantics,
+ * verifying both values stuck. Retries up to 3 times because Chrome's
+ * autofill sometimes overwrites `fill()` post-render and swallowing that
+ * silently leaves the password blank (root cause of an empty-password
+ * submit that lands us on wp-login with a "please fill this field" tooltip).
+ */
+async function fillCredsVerified(page) {
+    for (let n = 1; n <= 3; n++) {
+        try {
+            await page.locator('#user_login').fill('');
+            await page.locator('#user_pass').fill('');
+            await page.locator('#user_login').fill(STAGING.user);
+            await page.locator('#user_pass').fill(STAGING.pass);
+        } catch (_) { /* retry */ }
+        const uv = await page.locator('#user_login').inputValue().catch(() => '');
+        const pv = await page.locator('#user_pass').inputValue().catch(() => '');
+        if (uv === STAGING.user && pv === STAGING.pass) return true;
+        await page.waitForTimeout(400 * n);
+    }
+    throw new Error('Could not persist login credentials into wp-login form after 3 attempts');
+}
+/**
  * Resilient login.
  * Handles:
  *   - admin-email-confirmation interstitial ("Remind me later")
@@ -7,6 +29,14 @@ const { STAGING } = require("./env");
  *   - already-logged-in (cookie hit)
  */
 async function loginAsAdmin(page, attempt = 1) {
+    // Fast-path: if storageState already gave us a session, just probe the
+    // dashboard. No wp-login.php visit → no CAPTCHA re-challenge.
+    try {
+        await page.goto(`${STAGING.url}/wp-admin/`, { waitUntil: 'domcontentloaded', timeout: 15_000 });
+        if (page.url().includes('/wp-admin/') && !page.url().includes('wp-login')) {
+            return dismissInterstitials(page);
+        }
+    } catch (_) { /* fall through to full login */ }
     // Retry transient network failures (ERR_NETWORK_CHANGED, chrome-error://chromewebdata/) on the long live run
     let navErr;
     for (let n = 1; n <= 3; n++) {
@@ -34,22 +64,16 @@ async function loginAsAdmin(page, attempt = 1) {
     if (page.url().includes('/wp-admin/') && !page.url().includes('wp-login')) {
         return dismissInterstitials(page);
     }
+    // "Prove Your Humanity" math challenge — some staging sites gate
+    // wp-login.php with this. Solve it and let the Continue button navigate
+    // us to the real login form. Re-visiting wp-login.php after solving
+    // triggers a fresh challenge so we don't do that.
+    await solveHumanityChallenge(page);
     // Form may not be present if already logged in
     const userField = page.locator('#user_login');
     if (await userField.count() > 0) {
         await userField.waitFor({ state: 'visible' });
-        // Use fill() (atomic, no keyboard simulation) — type() drops chars on this WP build
-        await userField.fill(STAGING.user);
-        await page.locator('#user_pass').fill(STAGING.pass);
-        // Verify values stuck before submitting (defends against form re-render mid-fill)
-        const userValue = await userField.inputValue();
-        const passValue = await page.locator('#user_pass').inputValue();
-        if (userValue !== STAGING.user || passValue !== STAGING.pass) {
-            await userField.fill('');
-            await page.locator('#user_pass').fill('');
-            await userField.fill(STAGING.user);
-            await page.locator('#user_pass').fill(STAGING.pass);
-        }
+        await fillCredsVerified(page);
         // Retry the submit + nav up to 3 times. On a loaded staging site the click
         // can hang transiently (browser stuck, server slow); a quick retry usually clears it.
         let submitErr;
@@ -72,13 +96,32 @@ async function loginAsAdmin(page, attempt = 1) {
                 // Otherwise, reload the login page and re-fill before the next attempt
                 if (n < 3) {
                     await page.goto(`${STAGING.url}/wp-login.php`, { waitUntil: 'domcontentloaded', timeout: 30_000 }).catch(() => { });
-                    await page.locator('#user_login').fill(STAGING.user).catch(() => { });
-                    await page.locator('#user_pass').fill(STAGING.pass).catch(() => { });
+                    // Re-visiting can re-trigger the humanity challenge; solve
+                    // whatever's there before trying to fill.
+                    await solveHumanityChallenge(page);
+                    await fillCredsVerified(page);
                 }
             }
         }
         if (submitErr) throw submitErr;
         await page.waitForTimeout(1500);
+    }
+    // Post-submit humanity check — the CAPTCHA plugin can consume the
+    // session-flag on our login POST and re-challenge us. If a challenge
+    // appears now, solve it, then refill+resubmit the login form because
+    // Continue on the challenge navigates back to an empty login form.
+    for (let n = 1; n <= 3; n++) {
+        if (!await solveHumanityChallenge(page)) break;
+        // We're now on wp-login again with an empty form (session-flag set).
+        const uf = page.locator('#user_login');
+        if (await uf.count() === 0) break; // maybe landed on wp-admin directly
+        await fillCredsVerified(page);
+        await Promise.all([
+            page.waitForLoadState('domcontentloaded'),
+            page.click('#wp-submit', { timeout: 20_000 }).catch(() => {}),
+        ]);
+        await page.waitForTimeout(1500);
+        if (page.url().includes('/wp-admin/')) break;
     }
     await dismissInterstitials(page);
     // After interstitials we should be on wp-admin
@@ -86,6 +129,62 @@ async function loginAsAdmin(page, attempt = 1) {
         throw new Error(`Login did not land on wp-admin. Current: ${page.url()}`);
     }
 }
+/**
+ * Some staging sites gate wp-login.php with a "Prove Your Humanity" math
+ * challenge (e.g. "10 + 2 = ?"). Detect it, parse the arithmetic from the
+ * visible text, solve it, and click Continue so we can proceed to the real
+ * login form on the next page.
+ *
+ * Returns true if a challenge was solved (caller should re-render the login
+ * form afterwards); false if none was present.
+ */
+async function solveHumanityChallenge(page) {
+    const body = await page.locator('body').textContent().catch(() => '') || '';
+    if (!/Prove your humanity|Please solve this math problem/i.test(body)) {
+        return false;
+    }
+    // Grab the "N ± M = ?" line. Support +, -, *, /.
+    const parsed = await page.evaluate(() => {
+        const text = document.body.innerText || '';
+        // Match e.g. "10 + 2 =" or "10  +   2  ="
+        const m = text.match(/(-?\d+)\s*([+\-*/×÷])\s*(-?\d+)\s*=/);
+        if (!m) return null;
+        return { a: Number(m[1]), op: m[2], b: Number(m[3]) };
+    });
+    if (!parsed) return false;
+    const { a, op, b } = parsed;
+    let answer;
+    switch (op) {
+        case '+': answer = a + b; break;
+        case '-': answer = a - b; break;
+        case '*': case '×': answer = a * b; break;
+        case '/': case '÷': answer = a / b; break;
+        default: return false;
+    }
+    const input = page.locator('input[type="text"], input[type="number"], input:not([type])').first();
+    if (await input.count() === 0) return false;
+    await input.fill(String(answer));
+    const cont = page.locator('button:has-text("Continue"), input[type="submit"]').first();
+    if (await cont.count() === 0) return false;
+    // Decoupled click + wait: some CAPTCHA plugins validate via AJAX and
+    // rewrite the page without a full navigation, so `Promise.all([click,
+    // waitForLoadState])` would time out even though the challenge was
+    // accepted. Click, then poll for either a URL change OR the challenge
+    // markup going away, with a bounded budget.
+    const beforeUrl = page.url();
+    await cont.click({ timeout: 8_000 }).catch(() => {});
+    const deadline = Date.now() + 10_000;
+    while (Date.now() < deadline) {
+        if (page.url() !== beforeUrl) break;
+        const stillChallenged = await page.locator('body').textContent().catch(() => '');
+        if (!/Prove your humanity|Please solve this math problem/i.test(stillChallenged || '')) break;
+        await page.waitForTimeout(500);
+    }
+    await page.waitForLoadState('domcontentloaded', { timeout: 5_000 }).catch(() => {});
+    await page.waitForTimeout(600);
+    return true;
+}
+
 /**
  * Some WordPress installs show interstitial screens between login and dashboard:
  *  - admin-email confirmation (every 6 months)
@@ -113,7 +212,10 @@ async function dismissInterstitials(page) {
 }
 async function pageHasDbError(page) {
     const body = await page.locator('body').textContent().catch(() => '');
-    return /Error establishing a database connection|database error/i.test(body || '');
+    // Match ONLY the WordPress "site can't reach the DB" screen. The earlier
+    // `|database error` alternative fired on any plugin description that
+    // contained the word "database" — false positive.
+    return /Error establishing a database connection|Your PHP installation appears to be missing the MySQL extension/i.test(body || '');
 }
 /**
  * Visit any wp-admin URL with retry on DB error.

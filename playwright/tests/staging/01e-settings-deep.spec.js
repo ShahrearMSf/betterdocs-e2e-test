@@ -34,6 +34,11 @@ const SETTINGS_TO_TOGGLE = [
     'enable_ai_writing_assistant', 'enable_quality_score', 'enable_summary',
     // Print
     'enable_print',
+    // Revamp keys (Free 4.5.7 / Pro 3.9.3 / Chatbot main) — Instant Answer
+    // master, AI Chatbot master, Encyclopedia master + Glossaries taxonomy.
+    // Written to the same settings option; harmless to sweep in Free tier.
+    'enable_disable', 'enable_ai_chatbot',
+    'enable_encyclopedia', 'enable_glossaries',
 ];
 test.describe.serial('01e · Per-setting toggle round-trip', () => {
     test.beforeAll(async ({ browser }) => {

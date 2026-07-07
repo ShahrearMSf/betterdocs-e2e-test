@@ -5,7 +5,7 @@
  * (typically loaded from a local, gitignored `.env` file — see `.env.example`).
  * No real credentials are committed to the repo.
  */
-exports.SETTINGS_TABS = exports.TIER = exports.PLUGINS = exports.AUTHOR_USER = exports.STAGING = void 0;
+exports.MODERN_ADMIN_SLUGS = exports.SETTINGS_TABS = exports.TIER = exports.PLUGINS = exports.AUTHOR_USER = exports.STAGING = void 0;
 function required(name) {
     const v = process.env[name];
     if (!v) {
@@ -39,11 +39,30 @@ exports.PLUGINS = {
     elementorPro: 'elementor-pro/elementor-pro.php',
     eaForElementor: 'essential-addons-for-elementor/essential-addons-elementor.php',
     eaForElementorLite: 'essential-addons-for-elementor-lite/essential_adons_elementor.php',
+    woocommerce: 'woocommerce/woocommerce.php',
 };
 exports.TIER = {
     free: [exports.PLUGINS.essentialBlocks, exports.PLUGINS.betterdocs],
     pro: [exports.PLUGINS.essentialBlocks, exports.PLUGINS.betterdocs, exports.PLUGINS.betterdocsPro],
     chatbot: [exports.PLUGINS.essentialBlocks, exports.PLUGINS.betterdocs, exports.PLUGINS.betterdocsPro, exports.PLUGINS.betterdocsAiChatbot],
+    // Free + WooCommerce — used by the Product FAQ specs so they can request WC
+    // without needing Pro.
+    freeWithWc: [exports.PLUGINS.essentialBlocks, exports.PLUGINS.betterdocs, exports.PLUGINS.woocommerce],
+    // Pro + WooCommerce — used by 02h-product-faq.
+    proWithWc: [exports.PLUGINS.essentialBlocks, exports.PLUGINS.betterdocs, exports.PLUGINS.betterdocsPro, exports.PLUGINS.woocommerce],
+};
+/**
+ * Slugs of the new React-based admin pages that replace the classic
+ * `edit-tags.php` screens (BetterDocs Free ≥ 4.5, Pro ≥ 3.9).
+ * Referenced by specs that flip between modern + classic surfaces.
+ */
+exports.MODERN_ADMIN_SLUGS = {
+    docs: 'betterdocs-admin',
+    categories: 'betterdocs-doc-categories',
+    tags: 'betterdocs-doc-tags',
+    faq: 'betterdocs-faq',
+    glossaries: 'betterdocs-glossaries',
+    mkb: 'betterdocs-knowledge-base',
 };
 /**
  * Settings tabs the suite must visit.

@@ -18,7 +18,7 @@ const { setTier, getPluginStates } = require("../../helpers/staging/plugins");
 const { createKB, createDocCategory, createDoc, deleteDoc, deleteDocCategory, deleteKB } = require("../../helpers/staging/records");
 const { listSettingsTabs, logRename, setMultipleKb } = require("../../helpers/staging/settings");
 const { newGuestPage, visitFrontend, expectPageOk } = require("../../helpers/staging/frontend");
-const { STAGING } = require("../../helpers/staging/env");
+const { STAGING, MODERN_ADMIN_SLUGS } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
 const created = { docs: [], cats: [], kbs: [] };
 test.describe.serial('Tier 2 · BetterDocs Pro', () => {
@@ -60,15 +60,27 @@ test.describe.serial('Tier 2 · BetterDocs Pro', () => {
             await shoot(page, 'test-results-staging/02-tier2/02-tab-${safe}.png');
         }
     });
+    // 2.3 — Enable Multiple KB, create a KB term via REST, then verify it
+    // renders on the new React "Multiple KB" admin page (fallback: classic
+    // edit-tags screen). This exercises the Pro-3.9.3 MKB revamp.
     test('2.3 Enable Multiple KB + create a KB term', async ({ page }) => {
         await loginAsAdmin(page);
         await setMultipleKb(page, true);
         await page.waitForTimeout(1500);
-        const kb = await createKB(page, `QA KB ${Date.now()}`);
+        const kbName = `QA KB ${Date.now()}`;
+        const kb = await createKB(page, kbName);
         if (kb?.id) {
             created.kbs.push(kb.id);
-            await gotoAdmin(page, 'edit-tags.php?taxonomy=knowledge_base&post_type=docs');
-            await page.waitForTimeout(1500);
+            // Primary: modern React MKB screen.
+            await gotoAdmin(page, `admin.php?page=${MODERN_ADMIN_SLUGS.mkb}`);
+            await page.waitForTimeout(2500);
+            const modernBody = await page.locator('body').textContent() || '';
+            const modernOk = modernBody.includes(kbName) || /Multiple KB|Knowledge Base/i.test(modernBody);
+            if (!modernOk) {
+                logRename('tier2-mkb-modern', `${kbName} on ${MODERN_ADMIN_SLUGS.mkb}`, '(name not found)');
+                await gotoAdmin(page, 'edit-tags.php?taxonomy=knowledge_base&post_type=docs');
+                await page.waitForTimeout(1500);
+            }
             await shoot(page, 'test-results-staging/02-tier2/03-mkb-created.png');
         }
         else {

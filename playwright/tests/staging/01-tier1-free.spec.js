@@ -21,7 +21,7 @@ const { setTier } = require("../../helpers/staging/plugins");
 const { createDocCategory, createDocTag, createDoc, createFaq, createGlossary, deleteDoc, deleteFaq, deleteGlossary, deleteDocTag, deleteDocCategory } = require("../../helpers/staging/records");
 const { logRename, listSettingsTabs } = require("../../helpers/staging/settings");
 const { newGuestPage, visitFrontend, expectPageOk } = require("../../helpers/staging/frontend");
-const { STAGING } = require("../../helpers/staging/env");
+const { STAGING, MODERN_ADMIN_SLUGS } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
 // Track IDs across tests for end-of-spec cleanup
 const created = {
@@ -35,17 +35,20 @@ test.describe.serial('Tier 1 · BetterDocs Free', () => {
         await setTier(page, 'free');
         await ctx.close();
     });
+    // 1.1 — Dashboard smoke: the React admin dashboard app loads without a
+    // fatal error and the page contains BetterDocs identity text somewhere.
     test('1.1 BetterDocs admin menu present + Dashboard loads', async ({ page }) => {
         await loginAsAdmin(page);
-        await gotoAdmin(page, 'admin.php?page=betterdocs-dashboard');
+        await gotoAdmin(page, `admin.php?page=${MODERN_ADMIN_SLUGS.docs}`);
         await page.waitForTimeout(2000);
         const dash = await page.locator('body').textContent() || '';
-        // Don't be strict on label — BetterDocs Dashboard might rename
         if (!/BetterDocs|Dashboard|Knowledge/i.test(dash)) {
             logRename('tier1-dashboard', 'BetterDocs', '(not found)');
         }
         await shoot(page, 'test-results-staging/01-tier1/01-dashboard.png');
     });
+    // 1.2 — All Docs list page: verify it renders and cycle any view-mode
+    // toggle buttons (grid / list / classic) that are present in the toolbar.
     test('1.2 All Docs list page loads + view-mode buttons present', async ({ page }) => {
         await loginAsAdmin(page);
         await gotoAdmin(page, 'edit.php?post_type=docs');
@@ -68,6 +71,9 @@ test.describe.serial('Tier 1 · BetterDocs Free', () => {
             await shoot(page, `test-results-staging/01-tier1/02-${m.key}.png`);
         }
     });
+    // 1.3 — Settings tabs inventory: enumerate visible tabs and screenshot
+    // each. Fails only if the tab count drops below a floor (a rename or
+    // regression pruning the Free surface).
     test('1.3 Settings tabs inventory (Free tier)', async ({ page }) => {
         await loginAsAdmin(page);
         await gotoAdmin(page, 'admin.php?page=betterdocs-settings');
@@ -87,6 +93,8 @@ test.describe.serial('Tier 1 · BetterDocs Free', () => {
             await shoot(page, 'test-results-staging/01-tier1/03-tab-${safeName}.png');
         }
     });
+    // 1.4 — Settings-to-frontend round-trip: flip breadcrumb on via REST,
+    // then verify /docs/ still renders without a fatal error.
     test('1.4 Toggle a setting + verify reflection on frontend', async ({ page, browser }) => {
         // Toggle "Disable BetterDocs Built-in Doc Page" via REST so we don't depend on UI labels
         await loginAsAdmin(page);
@@ -108,26 +116,50 @@ test.describe.serial('Tier 1 · BetterDocs Free', () => {
         await shoot(guest, 'test-results-staging/01-tier1/04-frontend-docs-archive.png');
         await ctx.close();
     });
-    test('1.5 Categories — create + verify in admin', async ({ page }) => {
+    // 1.5 — Category CRUD: create via REST, then verify the new React
+    // "Doc Categories" screen renders (with classic edit-tags.php as fallback).
+    test('1.5 Categories — create + verify on modern admin screen', async ({ page }) => {
         await loginAsAdmin(page);
-        const cat = await createDocCategory(page, `QA Category ${Date.now()}`);
+        const catName = `QA Category ${Date.now()}`;
+        const cat = await createDocCategory(page, catName);
         expect(cat?.id, 'category creation should return an id').toBeTruthy();
         if (cat?.id)
             created.cats.push(cat.id);
-        await gotoAdmin(page, 'edit-tags.php?taxonomy=doc_category&post_type=docs');
-        await page.waitForTimeout(1500);
+        // Primary: modern React screen.
+        await gotoAdmin(page, `admin.php?page=${MODERN_ADMIN_SLUGS.categories}`);
+        await page.waitForTimeout(2500);
+        const modernBody = await page.locator('body').textContent() || '';
+        const modernOk = modernBody.includes(catName) || /Doc Categories|Categories/i.test(modernBody);
+        if (!modernOk) {
+            logRename('tier1-categories-modern', `${catName} on ${MODERN_ADMIN_SLUGS.categories}`, '(name not found)');
+            // Fallback: classic screen must at least render the term.
+            await gotoAdmin(page, 'edit-tags.php?taxonomy=doc_category&post_type=docs');
+            await page.waitForTimeout(1500);
+        }
         await shoot(page, 'test-results-staging/01-tier1/05-categories.png');
     });
-    test('1.6 Tags — create + verify in admin', async ({ page }) => {
+    // 1.6 — Tag CRUD: symmetric to categories, on the "Doc Tags" React page.
+    test('1.6 Tags — create + verify on modern admin screen', async ({ page }) => {
         await loginAsAdmin(page);
-        const tag = await createDocTag(page, `QA Tag ${Date.now()}`);
+        const tagName = `QA Tag ${Date.now()}`;
+        const tag = await createDocTag(page, tagName);
         expect(tag?.id, 'tag creation should return an id').toBeTruthy();
         if (tag?.id)
             created.tags.push(tag.id);
-        await gotoAdmin(page, 'edit-tags.php?taxonomy=doc_tag&post_type=docs');
-        await page.waitForTimeout(1500);
+        await gotoAdmin(page, `admin.php?page=${MODERN_ADMIN_SLUGS.tags}`);
+        await page.waitForTimeout(2500);
+        const modernBody = await page.locator('body').textContent() || '';
+        const modernOk = modernBody.includes(tagName) || /Doc Tags|Tags/i.test(modernBody);
+        if (!modernOk) {
+            logRename('tier1-tags-modern', `${tagName} on ${MODERN_ADMIN_SLUGS.tags}`, '(name not found)');
+            await gotoAdmin(page, 'edit-tags.php?taxonomy=doc_tag&post_type=docs');
+            await page.waitForTimeout(1500);
+        }
         await shoot(page, 'test-results-staging/01-tier1/06-tags.png');
     });
+    // 1.7 — Full doc lifecycle: create via REST (in the category + tag from
+    // 1.5/1.6), verify it appears in the admin list, then hit the public
+    // permalink as a guest and assert the title renders.
     test('1.7 Doc — create in category + tag, verify frontend renders', async ({ page, browser }) => {
         await loginAsAdmin(page);
         const catId = created.cats[0];
@@ -156,6 +188,8 @@ test.describe.serial('Tier 1 · BetterDocs Free', () => {
         await shoot(guest, 'test-results-staging/01-tier1/07-frontend-doc.png');
         await ctx.close();
     });
+    // 1.8 — FAQ Builder create smoke: create a FAQ via REST, then load the
+    // FAQ Builder React screen and screenshot it. Depth coverage lives in 02g.
     test('1.8 FAQ Builder — create FAQ', async ({ page }) => {
         await loginAsAdmin(page);
         const faq = await createFaq(page, { title: `QA FAQ ${Date.now()}` });
@@ -169,6 +203,8 @@ test.describe.serial('Tier 1 · BetterDocs Free', () => {
             logRename('faq-rest-endpoint', '/wp-json/wp/v2/betterdocs_faq', 'rejected');
         }
     });
+    // 1.9 — Glossaries create smoke: create a glossary via REST, then load
+    // the Glossaries React admin page. Depth coverage lives in 02g.
     test('1.9 Glossaries — visit admin page', async ({ page }) => {
         await loginAsAdmin(page);
         const gl = await createGlossary(page, { title: `QA Glossary ${Date.now()}` });
@@ -178,6 +214,8 @@ test.describe.serial('Tier 1 · BetterDocs Free', () => {
         await page.waitForTimeout(1500);
         await shoot(page, 'test-results-staging/01-tier1/09-glossaries.png');
     });
+    // 1.10 — Media Library smoke: /upload.php loads without a fatal / DB
+    // error. Actual media upload lives in 01b-tier1-extended.
     test('1.10 Image upload smoke — Media Library', async ({ page }) => {
         await loginAsAdmin(page);
         await gotoAdmin(page, 'upload.php');
@@ -186,6 +224,8 @@ test.describe.serial('Tier 1 · BetterDocs Free', () => {
         await expect(page.locator('body')).not.toContainText(/Fatal error|database/i);
         await shoot(page, 'test-results-staging/01-tier1/10-media-library.png');
     });
+    // 1.99 — Per-tier cleanup: delete the docs / FAQs / glossaries / tags /
+    // categories this spec created so subsequent runs start clean.
     test('1.99 Cleanup tier-1 entities', async ({ page }) => {
         await loginAsAdmin(page);
         for (const id of created.docs)

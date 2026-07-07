@@ -41,3 +41,4 @@ wp-content/
 *.swp
 *.swo
 .history/
+.auth/

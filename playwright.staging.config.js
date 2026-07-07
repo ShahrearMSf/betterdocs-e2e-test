@@ -37,8 +37,14 @@ if ( !process.env.STAGING_URL ) {
     throw new Error('Missing STAGING_URL — set it in your environment or copy .env.example to .env');
 }
 
+// Absolute path so `use.storageState` doesn't depend on Playwright's cwd
+// resolution rules.
+const ADMIN_STATE = path.resolve(__dirname, '.auth', 'admin.json');
+
 module.exports = defineConfig({
     testDir: './playwright/tests/staging',
+    // Log in once per full run, reuse cookies across every project.
+    globalSetup: require.resolve('./playwright/global-setup.js'),
     timeout: 10 * 60_000,        // 10 min per test — accommodates slow staging server responses
     fullyParallel: false,        // tier specs share site state — serial within a tier
     workers: 1,
@@ -56,7 +62,15 @@ module.exports = defineConfig({
         navigationTimeout: 30_000,
         trace: 'retain-on-failure',
         video: 'retain-on-failure',
-        screenshot: 'on',
+        // 'on' generated one PNG per test step across 200+ tests, eating a big
+        // slice of wall-time and disk. 'only-on-failure' is enough since
+        // failing traces already include per-step screenshots.
+        screenshot: 'only-on-failure',
+        // globalSetup writes this file before any test context is created,
+        // so unconditional is safe. Evaluating fs.existsSync at config-load
+        // would capture "false" from the fresh-run case and disable cookie
+        // reuse for the whole session.
+        storageState: ADMIN_STATE,
         headless: process.env.HEADED ? false : true,
     },
     projects: [
@@ -79,10 +93,13 @@ module.exports = defineConfig({
             testMatch: /\/03[a-z]?-.*\.spec\.js$/,
             dependencies: ['tier2-pro'],
         },
+        // Themes + cleanup no longer depend on tier3-chatbot. Tier3 flakiness
+        // used to skip 12 tests downstream — now themes runs after tier2 and
+        // cleanup runs after themes, unaffected by chatbot failures.
         {
             name: 'themes',
             testMatch: /04-themes-.*\.spec\.js/,
-            dependencies: ['tier3-chatbot'],
+            dependencies: ['tier2-pro'],
         },
         {
             name: '99-cleanup',
