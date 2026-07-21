@@ -89,26 +89,31 @@ async function fireReaction(page, docId, feeling) {
  * search bar uses. Zero-result queries surface in Search Analytics →
  * Zero-Result.
  */
-async function fireSearch(page, term) {
+async function fireSearch(page, term, opts = {}) {
+    // Free 4.5.7 REST/Docs.php registers `search-insert` as a GET with
+    // query params `s` (term) and `no_result` (bool). Zero-result queries
+    // pass no_result=1 so they show up in Search Analytics → Zero-Result.
+    const noResult = opts.noResult == null ? 1 : (opts.noResult ? 1 : 0);
     const nonce = await getRestNonce(page);
-    const res = await page.evaluate(async ([url, nonce, term]) => {
+    const res = await page.evaluate(async ([url, nonce, term, noResult]) => {
+        const qs = `s=${encodeURIComponent(term)}&no_result=${noResult}`;
         for (const path of [
-            '/wp-json/betterdocs/v1/analytics/search-insert',
-            '/wp-json/betterdocs/v1/search-insert',
-            '/wp-json/betterdocs-pro/v1/analytics/search-insert',
+            `/wp-json/betterdocs/v1/search-insert?${qs}`,
+            `/wp-json/betterdocs-pro/v1/search-insert?${qs}`,
+            `/wp-json/betterdocs/v1/analytics/search-insert?${qs}`,
         ]) {
             try {
                 const r = await fetch(`${url}${path}`, {
-                    method: 'POST',
+                    method: 'GET',
                     credentials: 'include',
-                    headers: { 'X-WP-Nonce': nonce, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ term, keyword: term, query: term, count: 0 }),
+                    headers: { 'X-WP-Nonce': nonce },
                 });
                 if (r.ok) return { status: r.status, path };
+                if (r.status && r.status < 500) return { status: r.status, path, body: await r.text().catch(() => '') };
             } catch (_) { /* try next */ }
         }
         return { status: 0, path: null };
-    }, [STAGING.url, nonce, term]);
+    }, [STAGING.url, nonce, term, noResult]);
     return res;
 }
 

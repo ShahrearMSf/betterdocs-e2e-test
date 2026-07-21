@@ -94,12 +94,20 @@ async function probeSurface(page, surface) {
         page.off('pageerror', onPageErr);
     }
     const signals = await page.evaluate((cfg) => {
+        // Try every candidate selector, pick the ONE with the largest
+        // rendered height. A generic selector like [id*="betterdocs"]
+        // often matches multiple elements (a hidden wrapper AND the
+        // visible app root); "first match wins" would pick the hidden
+        // one and falsely report the surface as empty.
         function pickRoot(sels) {
+            let best = null, bestH = -1;
             for (const s of sels) {
-                const el = document.querySelector(s);
-                if (el) return el;
+                for (const el of document.querySelectorAll(s)) {
+                    const h = el.getBoundingClientRect().height;
+                    if (h > bestH) { bestH = h; best = el; }
+                }
             }
-            return null;
+            return best;
         }
         const rootSelectors = cfg.rootSelectors && cfg.rootSelectors.length
             ? cfg.rootSelectors
@@ -143,11 +151,26 @@ function derive(rows, noticesOnPluginsPage = []) {
     ].join(' | ');
     const explains = NOTICE_RE.test(noticeCombined);
     return rows.map((r) => {
-        const broken =
-            (r.spa_root_present && r.spa_root_height < 200) ||
-            r.console_errors.some((e) => CHUNK_ERR_RE.test(e)) ||
-            (typeof r.min_visible_buttons === 'number' && r.visible_buttons < r.min_visible_buttons) ||
-            r.fatal_php === true;
+        // "Broken surface" heuristic — the classic "React chunk mismatch"
+        // symptom is BOTH signals firing at once: the SPA container we
+        // picked has near-zero height AND almost no visible buttons.
+        //
+        // A single signal alone is unreliable:
+        //   - height=0 alone: we may have picked a hidden wrapper while
+        //     the real content is elsewhere (e.g. Doc Categories renders
+        //     a 26-button screen inside a different container).
+        //   - low button count alone: some legit surfaces (empty-state
+        //     Encyclopedia, brand-new Analytics) legitimately show few
+        //     controls.
+        //
+        // Chunk-load console errors and PHP fatals stay standalone
+        // signals — either is a definite break by itself.
+        const chunkErr = r.console_errors.some((e) => CHUNK_ERR_RE.test(e));
+        const emptyRoot = r.spa_root_present && r.spa_root_height < 200;
+        const missingButtons = typeof r.min_visible_buttons === 'number'
+            && r.visible_buttons < r.min_visible_buttons;
+        const combinedEmpty = emptyRoot && (r.visible_buttons < 3 || missingButtons);
+        const broken = combinedEmpty || chunkErr || r.fatal_php === true;
         return {
             ...r,
             has_broken_surface: broken,
