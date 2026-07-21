@@ -27,6 +27,8 @@ playwright/.auth/
 *.log
 wpserver.log
 staging-renames-report.json
+results.json
+compat-matrix.json
 
 # Local WP test sites (only used during development of the suite)
 test-site/
