@@ -78,6 +78,33 @@ async function loginAsAdmin(page, attempt = 1) {
         // can hang transiently (browser stuck, server slow); a quick retry usually clears it.
         let submitErr;
         for (let n = 1; n <= 3; n++) {
+            // Chrome's autofill / a plugin's JS can wipe the password field
+            // AFTER our verify pass and BEFORE the submit click. That leaves
+            // the form submitted with an empty password + wp-login's HTML5
+            // "please fill this field" tooltip — the exact class of failure
+            // we saw on the msf.bd host. Re-fill inputs via a JS-level value
+            // assignment (bypasses autofill's clearing) right before submit.
+            await page.evaluate(([user, pass]) => {
+                const set = (sel, val) => {
+                    const el = document.querySelector(sel);
+                    if (!el) return;
+                    const proto = Object.getPrototypeOf(el);
+                    const desc = Object.getOwnPropertyDescriptor(proto, 'value');
+                    desc?.set?.call(el, val);
+                    el.dispatchEvent(new Event('input', { bubbles: true }));
+                    el.dispatchEvent(new Event('change', { bubbles: true }));
+                };
+                set('#user_login', user);
+                set('#user_pass', pass);
+            }, [STAGING.user, STAGING.pass]);
+            // Sanity-verify the password stuck this time; if not, bail early
+            // so the outer login retry gets a clean second attempt.
+            const pv = await page.locator('#user_pass').inputValue().catch(() => '');
+            if (pv !== STAGING.pass) {
+                submitErr = new Error(`password field cleared before submit (attempt ${n})`);
+                await page.waitForTimeout(1000 * n);
+                continue;
+            }
             try {
                 await Promise.all([
                     page.waitForLoadState('domcontentloaded'),
@@ -161,10 +188,22 @@ async function solveHumanityChallenge(page) {
         case '/': case '÷': answer = a / b; break;
         default: return false;
     }
+    // Extra safety: bail if the WordPress login form (#user_login /
+    // #user_pass) is on this page. On some hosts the login page contains
+    // policy / help text that trips the regex above, and clicking the
+    // generic `input[type="submit"]` below would submit wp-login with an
+    // empty password — the exact regression we saw on the msf.bd host.
+    if (await page.locator('#user_login, #user_pass').count() > 0) return false;
     const input = page.locator('input[type="text"], input[type="number"], input:not([type])').first();
     if (await input.count() === 0) return false;
     await input.fill(String(answer));
-    const cont = page.locator('button:has-text("Continue"), input[type="submit"]').first();
+    // Continue button — restricted to the challenge form so we can't
+    // accidentally click wp-login's Log In (also `input[type="submit"]`).
+    const cont = page.locator([
+        'button:has-text("Continue")',
+        'button:has-text("Submit")',
+        'input[type="submit"][value*="Continue" i]',
+    ].join(', ')).first();
     if (await cont.count() === 0) return false;
     // Decoupled click + wait: some CAPTCHA plugins validate via AJAX and
     // rewrite the page without a full navigation, so `Promise.all([click,

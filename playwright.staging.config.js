@@ -101,6 +101,15 @@ module.exports = defineConfig({
             testMatch: /04-themes-.*\.spec\.js/,
             dependencies: ['tier2-pro'],
         },
+        // Compat matrix — samples the "design health" of admin + frontend
+        // surfaces under whatever Free / Pro / Chatbot versions are currently
+        // active on staging. Independent of tier-cleanup cascade so a broken
+        // cell doesn't skip cleanup, and cleanup doesn't nuke the matrix.
+        {
+            name: 'compat-matrix',
+            testMatch: /05-compat-matrix\.spec\.js/,
+            dependencies: ['00-setup'],
+        },
         {
             name: '99-cleanup',
             testMatch: /99-cleanup\.spec\.js/,
