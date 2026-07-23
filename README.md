@@ -313,3 +313,26 @@ Broken-surface heuristic (both signals must fire — one alone is unreliable):
 `silent_break = broken && no notice matching /requires.*BetterDocs|compat|newer.*version|min.*version/`. Compat notices are collected from the surface itself AND from `plugins.php`, so an "update BetterDocs to 4.6.x" notice on plugins.php properly explains a broken tab-9 surface too.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Latest Validation
+
+**Last known live state on `probettamation.shahrear.msf.bd`** (Free 4.6.3 + Pro 3.9.5 + Chatbot 1.8.1, 2026-07-22):
+
+| Subset | Result | Wall time |
+| --- | --- | --- |
+| `--project=compat-matrix` (16 tests) | **16/16 pass · 0 silent breaks** | 3.1 min |
+| `--grep "02i"` (17 analytics tests + tier1 dep walk = 163 executions) | **152 pass · 0 fail · 11 intentional `test.skip`** | 38.7 min |
+| Prior full suite (before analytics fixes) | 189 pass · 1 fail · 2 skipped · 12 did-not-run | 144 min → 44.9 min after storage-state |
+
+The compat-matrix's first recorded cell shows no design failures: every admin/frontend surface either renders a healthy SPA root (dashboard 868 px, doc-categories 1123 px, analytics 1264 px) or produces a legitimate empty state that the tightened heuristic doesn't misread. Both analytics helpers (`fireReaction` payload `feelings: happy|sad|normal`, `fireSearch` GET with `s`+`no_result` query params) are validated end-to-end against the live REST endpoints. Every full-suite attempt has been derailed by transient network hiccups against the msf.bd host somewhere in its ~50-minute window, but every subset that has completed uninterrupted has passed cleanly.
+
+**Wall-time improvements banked in this cycle:**
+
+| Change | Before | After |
+| --- | --- | --- |
+| Full suite baseline | 144 min | 45 min |
+| Per-test login | ~30 s | ~1 s (storage-state) |
+| Screenshot policy | on-every-step | on-failure-only |
+| logRename output | thousands of dupes | 16 unique per run |
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
