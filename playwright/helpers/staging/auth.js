@@ -78,38 +78,45 @@ async function loginAsAdmin(page, attempt = 1) {
         // can hang transiently (browser stuck, server slow); a quick retry usually clears it.
         let submitErr;
         for (let n = 1; n <= 3; n++) {
-            // Chrome's autofill / a plugin's JS can wipe the password field
-            // AFTER our verify pass and BEFORE the submit click. That leaves
-            // the form submitted with an empty password + wp-login's HTML5
-            // "please fill this field" tooltip — the exact class of failure
-            // we saw on the msf.bd host. Re-fill inputs via a JS-level value
-            // assignment (bypasses autofill's clearing) right before submit.
-            await page.evaluate(([user, pass]) => {
+            // Chrome's autofill / a plugin's JS keeps wiping the password
+            // field AFTER our verify pass and BEFORE the submit click on the
+            // msf.bd host. The previous split (assign → verify → click) left
+            // a small async window where autofill would replace the value
+            // with an empty string. This atomic version re-assigns the
+            // fields, verifies the password stuck AND submits the form —
+            // all inside a single `evaluate` callback so no async gap
+            // exists for autofill to intercept.
+            //
+            // `form.submit()` also bypasses HTML5 required-field validation,
+            // so if the password DOES somehow end up empty the browser
+            // submits it anyway and WordPress responds with a normal login
+            // error — which is far more diagnostic than the silent HTML5
+            // "Please fill out this field" tooltip we saw before.
+            const submitResult = await page.evaluate(([user, pass]) => {
                 const set = (sel, val) => {
                     const el = document.querySelector(sel);
-                    if (!el) return;
+                    if (!el) return null;
                     const proto = Object.getPrototypeOf(el);
-                    const desc = Object.getOwnPropertyDescriptor(proto, 'value');
-                    desc?.set?.call(el, val);
+                    Object.getOwnPropertyDescriptor(proto, 'value')?.set?.call(el, val);
                     el.dispatchEvent(new Event('input', { bubbles: true }));
                     el.dispatchEvent(new Event('change', { bubbles: true }));
+                    return el.value;
                 };
                 set('#user_login', user);
-                set('#user_pass', pass);
+                const pv = set('#user_pass', pass);
+                if (pv !== pass) return { ok: false, reason: 'password did not stick' };
+                const form = document.getElementById('loginform');
+                if (!form) return { ok: false, reason: 'loginform not found' };
+                form.submit();
+                return { ok: true };
             }, [STAGING.user, STAGING.pass]);
-            // Sanity-verify the password stuck this time; if not, bail early
-            // so the outer login retry gets a clean second attempt.
-            const pv = await page.locator('#user_pass').inputValue().catch(() => '');
-            if (pv !== STAGING.pass) {
-                submitErr = new Error(`password field cleared before submit (attempt ${n})`);
+            if (!submitResult.ok) {
+                submitErr = new Error(`fill+submit failed: ${submitResult.reason} (attempt ${n})`);
                 await page.waitForTimeout(1000 * n);
                 continue;
             }
             try {
-                await Promise.all([
-                    page.waitForLoadState('domcontentloaded'),
-                    page.click('#wp-submit', { timeout: 20_000 }),
-                ]);
+                await page.waitForLoadState('domcontentloaded', { timeout: 20_000 });
                 submitErr = null;
                 break;
             } catch (e) {

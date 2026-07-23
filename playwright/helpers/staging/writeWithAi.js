@@ -38,8 +38,11 @@ async function hasApiKey(page) {
  * for the modal to render. Returns true if the modal is visible.
  */
 async function openWriteWithAi(page) {
-    // Button lives in the editor toolbar. Slug + text varied across
-    // releases; try the canonical hook + a few text-based fallbacks.
+    // Button lives in the editor toolbar, which only mounts after the
+    // Gutenberg React app + BetterDocs bundle have finished booting. Wait
+    // for the button to actually be visible (up to 20s) instead of
+    // assuming a preceding wait already covered it. Cuts down on flaky
+    // "modal not available" skips.
     const trigger = page.locator([
         '.bd-write-with-ai-button',
         'button:has-text("Write with AI")',
@@ -47,7 +50,11 @@ async function openWriteWithAi(page) {
         'button:has-text("BetterDocs AI")',
         '[aria-label*="Write with AI" i]',
     ].join(', ')).first();
-    if (await trigger.count() === 0) return false;
+    try {
+        await trigger.waitFor({ state: 'visible', timeout: 20_000 });
+    } catch (_) {
+        return false;
+    }
     await trigger.click({ timeout: 6_000 }).catch(() => {});
     // Modal marker — dialog / class starting with bd- or betterdocs-.
     const modal = page.locator([
@@ -57,9 +64,23 @@ async function openWriteWithAi(page) {
         '.bd-ai-modal',
     ].join(', ')).first();
     try {
-        await modal.waitFor({ state: 'visible', timeout: 8_000 });
+        await modal.waitFor({ state: 'visible', timeout: 12_000 });
         return true;
     } catch (_) {
+        // Fallback: check for a modal wrapper that mentions WWAI copy
+        // in its text — filters out Gutenberg's welcome tour and other
+        // generic overlays that happen to be visible at the moment.
+        const fallback = page.locator([
+            '[class*="write-with-ai"]',
+            '[class*="wwai"]',
+            '.bd-ai-modal',
+        ].join(', ')).first();
+        if (await fallback.count() > 0 && await fallback.isVisible().catch(() => false)) {
+            const t = (await fallback.textContent().catch(() => '')) || '';
+            if (/write\s*with|prompt|source|Git|generate|BetterDocs\s*AI/i.test(t)) {
+                return true;
+            }
+        }
         return false;
     }
 }
@@ -111,17 +132,21 @@ async function generate(page, opts) {
     ].join(', ')).first();
     if (await submit.count() === 0) return { ok: false, error: 'no submit button in modal' };
     await submit.click().catch(() => {});
-    // Wait for either a completion marker (preview / accept button) or a
-    // visible error, whichever lands first. gpt-5 can hit 40s.
-    const done = page.locator([
+    // Wait for a completion marker specific to the Write with AI modal.
+    // The previous version accepted `[role="alert"]` and any `[class*="preview"]`
+    // globally, which matched wp-admin boot notices and unrelated UI on
+    // the page — leading to a false "ok" while the modal actually crashed
+    // or showed a no-key notice. Scope markers to the modal container.
+    const scope = page.locator('[role="dialog"], .bd-ai-modal, [class*="write-with-ai"]').first();
+    const done = scope.locator([
         'button:has-text("Keep & insert")',
+        'button:has-text("Keep and insert")',
         'button:has-text("Insert")',
         'button:has-text("Accept")',
         '[class*="preview"]',
-        '[role="alert"]',
     ].join(', ')).first();
     try {
-        await done.first().waitFor({ state: 'visible', timeout: 60_000 });
+        await done.waitFor({ state: 'visible', timeout: 60_000 });
         return { ok: true };
     } catch (e) {
         return { ok: false, error: 'timeout waiting for generation to finish' };
@@ -203,6 +228,48 @@ async function getModelPill(page) {
     return (await pill.textContent().catch(() => '')) || '';
 }
 
+/**
+ * Look for a "missing API key" / "not configured" style notice inside the
+ * Write with AI modal (or on the page). Returns { visible: bool, text }.
+ * Called by tests that want to prove the no-key surface behaves gracefully
+ * instead of being skipped.
+ */
+async function findMissingKeyNotice(page) {
+    // Notice can be inside the modal itself, a settings-link callout, or a
+    // Gutenberg notice bar. Match by broad text patterns so we tolerate
+    // copy churn across releases.
+    const matchers = [
+        // Explicit "API key required / missing / not configured" surfaces.
+        /API\s*key\s*(is\s*)?(required|missing|not\s*(configured|set|added|added yet))/i,
+        /No\s*API\s*key/i,
+        // Action-word variants — the modal on release 4.5.7 says
+        // "Please insert your OpenAI API Key" and "Connect an API key in
+        // Settings", so the older "configure|add|set" list wasn't enough.
+        /Please\s*(configure|add|set|insert|enter|provide)\s*(your\s*|an\s*)?(OpenAI\s*)?API\s*Key/i,
+        /Connect\s*(an\s*|the\s*)?API\s*key/i,
+        /Add\s*API\s*key/i,
+        // Broader gate copy — "settings → AI to enable generation",
+        // "configure BetterDocs AI", "contact admin", "not available".
+        /Settings.*(?:AI|enable\s*generation)/i,
+        /Configure\s*(BetterDocs\s*)?AI/i,
+        /Contact\s*(the\s*)?(site\s*)?administrator/i,
+        /not\s*(currently\s*)?available/i,
+        /not\s*configured/i,
+    ];
+    // Read the full rendered text (document.body.innerText) — React
+    // portals mount modals outside the caller's scope in the DOM tree, so
+    // a scoped textContent() from `[role="dialog"]` can miss the notice
+    // even when a human clearly sees it. innerText also collapses
+    // whitespace the way the user sees it, avoiding regex false-negatives
+    // from fragmented text nodes.
+    const text = await page.evaluate(() => document.body?.innerText || '').catch(() => '');
+    for (const re of matchers) {
+        const m = text.match(re);
+        if (m) return { visible: true, text: m[0].slice(0, 200) };
+    }
+    return { visible: false, text: '' };
+}
+
 module.exports = {
     hasApiKey,
     openWriteWithAi,
@@ -211,4 +278,5 @@ module.exports = {
     keepAndInsert,
     hasGlossaryToggle,
     getModelPill,
+    findMissingKeyNotice,
 };
