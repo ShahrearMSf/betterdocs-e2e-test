@@ -23,6 +23,7 @@ const { logRename, listSettingsTabs } = require("../../helpers/staging/settings"
 const { newGuestPage, visitFrontend, expectPageOk } = require("../../helpers/staging/frontend");
 const { STAGING, MODERN_ADMIN_SLUGS } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 // Track IDs across tests for end-of-spec cleanup
 const created = {
     docs: [], cats: [], tags: [], faqs: [], glossaries: [],
@@ -41,7 +42,7 @@ test.describe.serial('Tier 1 · BetterDocs Free', () => {
         await loginAsAdmin(page);
         await gotoAdmin(page, `admin.php?page=${MODERN_ADMIN_SLUGS.docs}`);
         await page.waitForTimeout(2000);
-        const dash = await page.locator('body').textContent() || '';
+        const dash = await pageText(page);
         if (!/BetterDocs|Dashboard|Knowledge/i.test(dash)) {
             logRename('tier1-dashboard', 'BetterDocs', '(not found)');
         }
@@ -128,7 +129,7 @@ test.describe.serial('Tier 1 · BetterDocs Free', () => {
         // Primary: modern React screen.
         await gotoAdmin(page, `admin.php?page=${MODERN_ADMIN_SLUGS.categories}`);
         await page.waitForTimeout(2500);
-        const modernBody = await page.locator('body').textContent() || '';
+        const modernBody = await pageText(page);
         const modernOk = modernBody.includes(catName) || /Doc Categories|Categories/i.test(modernBody);
         if (!modernOk) {
             logRename('tier1-categories-modern', `${catName} on ${MODERN_ADMIN_SLUGS.categories}`, '(name not found)');
@@ -148,7 +149,7 @@ test.describe.serial('Tier 1 · BetterDocs Free', () => {
             created.tags.push(tag.id);
         await gotoAdmin(page, `admin.php?page=${MODERN_ADMIN_SLUGS.tags}`);
         await page.waitForTimeout(2500);
-        const modernBody = await page.locator('body').textContent() || '';
+        const modernBody = await pageText(page);
         const modernOk = modernBody.includes(tagName) || /Doc Tags|Tags/i.test(modernBody);
         if (!modernOk) {
             logRename('tier1-tags-modern', `${tagName} on ${MODERN_ADMIN_SLUGS.tags}`, '(name not found)');
@@ -176,14 +177,14 @@ test.describe.serial('Tier 1 · BetterDocs Free', () => {
         // Verify it shows in admin list
         await gotoAdmin(page, 'edit.php?post_type=docs');
         await page.waitForTimeout(1500);
-        const adminBody = await page.locator('body').textContent() || '';
+        const adminBody = await pageText(page);
         expect(adminBody, 'created doc title should appear in admin list').toContain(doc.title.rendered);
         await shoot(page, 'test-results-staging/01-tier1/07-admin-docs-list.png');
         // Verify frontend
         const { page: guest, ctx } = await newGuestPage(browser);
         await visitFrontend(guest, doc.link.replace(STAGING.url, ''));
         await expectPageOk(guest);
-        const body = await guest.locator('body').textContent() || '';
+        const body = await pageText(guest);
         expect(body, 'frontend should contain the doc title').toContain(doc.title.rendered);
         await shoot(guest, 'test-results-staging/01-tier1/07-frontend-doc.png');
         await ctx.close();

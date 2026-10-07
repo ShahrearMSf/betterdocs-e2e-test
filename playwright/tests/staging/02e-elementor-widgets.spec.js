@@ -9,6 +9,7 @@ const { activatePlugins } = require("../../helpers/staging/plugins");
 const { createPageWithContent, deletePage } = require("../../helpers/staging/blocks");
 const { logRename } = require("../../helpers/staging/settings");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 const EXPECTED_WIDGETS = [
     'CategoryGrid', 'CategoryBox', 'ArchiveList', 'FAQ', 'Sidebar',
     'SearchBox', 'SocialShare', 'Reactions', 'ReadingTime', 'TOC',
@@ -36,7 +37,7 @@ test.describe.serial('02e · Elementor widget panel', () => {
         await page.goto(`${STAGING.url}/wp-admin/post.php?post=${testPageId}&action=elementor`);
         await page.waitForTimeout(15000); // Elementor takes time to boot
         await shoot(page, 'test-results-staging/02e-elementor/01-elementor-editor.png', { fullPage: true });
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         expect(body, 'Elementor editor should load').not.toMatch(/Fatal error/i);
     });
     test('02e.2 Widget panel search returns BetterDocs widgets', async ({ page }) => {

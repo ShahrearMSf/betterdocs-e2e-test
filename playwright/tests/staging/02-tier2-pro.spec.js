@@ -20,6 +20,7 @@ const { listSettingsTabs, logRename, setMultipleKb } = require("../../helpers/st
 const { newGuestPage, visitFrontend, expectPageOk } = require("../../helpers/staging/frontend");
 const { STAGING, MODERN_ADMIN_SLUGS } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 const created = { docs: [], cats: [], kbs: [] };
 test.describe.serial('Tier 2 · BetterDocs Pro', () => {
     test.beforeAll(async ({ browser }) => {
@@ -74,7 +75,7 @@ test.describe.serial('Tier 2 · BetterDocs Pro', () => {
             // Primary: modern React MKB screen.
             await gotoAdmin(page, `admin.php?page=${MODERN_ADMIN_SLUGS.mkb}`);
             await page.waitForTimeout(2500);
-            const modernBody = await page.locator('body').textContent() || '';
+            const modernBody = await pageText(page);
             const modernOk = modernBody.includes(kbName) || /Multiple KB|Knowledge Base/i.test(modernBody);
             if (!modernOk) {
                 logRename('tier2-mkb-modern', `${kbName} on ${MODERN_ADMIN_SLUGS.mkb}`, '(name not found)');

@@ -32,6 +32,7 @@ const {
 const { newGuestPage, visitFrontend } = require("../../helpers/staging/frontend");
 const { STAGING } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 
 const created = { docs: [], searches: [] };
 let seedDoc = null;      // { id, link, slug }
@@ -72,7 +73,7 @@ test.describe.serial('02i · Advanced Analytics v1', () => {
         await gotoAdmin(page, 'admin.php?page=betterdocs-analytics');
         await page.waitForTimeout(3500);
         await shoot(page, 'test-results-staging/02i-analytics/01-shell.png', { fullPage: true });
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         expect(body, 'analytics page should not fatal').not.toMatch(/Fatal error|Uncaught/);
         const TABS = ['Overview', 'Doc Performance', 'Reactions', 'Search Analytics',
                       'Reader Engagement', 'Feedback Inbox', 'Link Health', 'Author Performance'];
@@ -257,7 +258,7 @@ test.describe.serial('02i · Advanced Analytics v1', () => {
             await page.waitForTimeout(1500);
         }
         await shoot(page, 'test-results-staging/02i-analytics/09-doc-drawer.png');
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         // Drawer must render SOME Likes / Dislikes UI; content read from legacy.
         if (!/Likes|Dislikes|Reactions/.test(body)) {
             logRename('analytics:doc-drawer', 'Likes / Dislikes labels', '(not visible)');
@@ -271,7 +272,7 @@ test.describe.serial('02i · Advanced Analytics v1', () => {
         for (const slug of ['reader-engagement', 'link-health', 'authors']) {
             await gotoAdmin(page, `admin.php?page=betterdocs-analytics#/${slug}`);
             await page.waitForTimeout(3000);
-            const body = await page.locator('body').textContent() || '';
+            const body = await pageText(page);
             expect(body, `${slug} tab should not fatal`).not.toMatch(/Fatal error|Uncaught/);
             await shoot(page, `test-results-staging/02i-analytics/10-${slug}.png`);
         }
@@ -343,7 +344,7 @@ test.describe.serial('02i · Advanced Analytics v1', () => {
         await setTier(page, 'free');
         await gotoAdmin(page, 'admin.php?page=betterdocs-analytics');
         await page.waitForTimeout(3000);
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         expect(body, 'analytics under Free should not fatal').not.toMatch(/Fatal error|Uncaught/);
         // Restore Pro for downstream tests.
         await setTier(page, 'pro');

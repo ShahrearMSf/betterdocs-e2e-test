@@ -15,6 +15,7 @@ const { logRename, enableInstantAnswer, enableAiChatbot } = require("../../helpe
 const { newGuestPage, visitFrontend } = require("../../helpers/staging/frontend");
 const { STAGING } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 // Non-serial: individual tests here don't depend on ordering. A single
 // login-flake in 3.4a used to skip 3.4b + 3.5 and cascade into 12 downstream
 // tests via `describe.serial`. Non-serial lets each test attempt on its own.
@@ -95,7 +96,7 @@ test.describe('Tier 3 · BetterDocs Chatbot', () => {
             // Setting key may have changed — try the dedicated logs page directly
             await gotoAdmin(page, 'admin.php?page=betterdocs-ai-chatbot-logs');
             await page.waitForTimeout(2000);
-            const body = await page.locator('body').textContent() || '';
+            const body = await pageText(page);
             if (/not allowed|sorry/i.test(body)) {
                 console.log('[3.3] Chatbot logs page still gated after enable_chatbot_logs=true (may need API key first)');
             }

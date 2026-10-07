@@ -14,6 +14,7 @@ const { gotoAdmin, loginAsAdmin } = require("../../helpers/staging/auth");
 const { logRename } = require("../../helpers/staging/settings");
 const { newGuestPage, visitFrontend } = require("../../helpers/staging/frontend");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 const THEMES = [
     { slug: 'twentytwentyfour', label: 'Twenty Twenty-Four', kind: 'fse' },
     { slug: 'twentytwentyfive', label: 'Twenty Twenty-Five', kind: 'fse' },
@@ -61,7 +62,7 @@ test.describe.serial('04 · Theme matrix', () => {
             const { page: guest, ctx } = await newGuestPage(browser);
             await visitFrontend(guest, '/docs/');
             await guest.waitForTimeout(2500);
-            const body = await guest.locator('body').textContent() || '';
+            const body = await pageText(guest);
             expect(body, `${theme.label} frontend should not fatal`).not.toMatch(/Fatal error|Uncaught/);
             await shoot(guest, 'test-results-staging/04-themes/frontend-${theme.slug}.png', { fullPage: true });
             await ctx.close();

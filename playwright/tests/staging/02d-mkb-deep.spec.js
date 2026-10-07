@@ -8,6 +8,7 @@ const { createKB, createDocCategory, createDoc, deleteDoc, deleteDocCategory, de
 const { setMultipleKb, logRename } = require("../../helpers/staging/settings");
 const { newGuestPage, visitFrontend, expectPageOk } = require("../../helpers/staging/frontend");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 const created = { docs: [], cats: [], kbs: [] };
 test.describe.serial('02d · MKB-deep', () => {
     test.beforeAll(async ({ browser }) => {
@@ -58,7 +59,7 @@ test.describe.serial('02d · MKB-deep', () => {
             // KB archive shape typically /docs/{kb-slug}/ or /knowledge-base/{kb-slug}/
             await visitFrontend(guest, `/docs/qa-kb-${i + 1}/`);
             await guest.waitForTimeout(1500);
-            const body = await guest.locator('body').textContent() || '';
+            const body = await pageText(guest);
             if (/Page not found|404/i.test(body)) {
                 logRename(`mkb-archive-url`, `/docs/qa-kb-${i + 1}/`, 'returned 404');
             }

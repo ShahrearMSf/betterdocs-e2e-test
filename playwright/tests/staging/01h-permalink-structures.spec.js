@@ -19,6 +19,7 @@ const { logRename } = require("../../helpers/staging/settings");
 const { newGuestPage, visitFrontend } = require("../../helpers/staging/frontend");
 const { STAGING } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 let testDocId = null;
 let testDocLink = null;
 const STRUCTURES = [
@@ -61,7 +62,7 @@ test.describe.serial('01h · Permalink structures', () => {
             // For plain perma, the URL shape is different
             await visitFrontend(guest, s.value === '' ? '/?post_type=docs' : '/docs/');
             await guest.waitForTimeout(1500);
-            const body = await guest.locator('body').textContent() || '';
+            const body = await pageText(guest);
             if (/Page not found|404 Not Found/i.test(body)) {
                 logRename(`permalink-${s.name}`, '200', '404 on /docs/');
             }

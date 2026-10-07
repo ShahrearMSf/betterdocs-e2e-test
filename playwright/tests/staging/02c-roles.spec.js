@@ -11,6 +11,7 @@ const { loginAsAdmin, getRestNonce } = require("../../helpers/staging/auth");
 const { setTier } = require("../../helpers/staging/plugins");
 const { STAGING } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 const ROLE_USERS = [
     { username: `qa_subscriber_${Date.now()}`, email: `qa-sub-${Date.now()}@example.com`, role: 'subscriber', password: 'QaSub!Pass123' },
     { username: `qa_editor_${Date.now()}`, email: `qa-edit-${Date.now()}@example.com`, role: 'editor', password: 'QaEdit!Pass123' },
@@ -58,7 +59,7 @@ test.describe.serial('02c · Per-role visibility', () => {
         // Try to access wp-admin
         await page.goto(`${STAGING.url}/wp-admin/admin.php?page=betterdocs-settings`);
         await page.waitForTimeout(1500);
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         const blocked = /Sorry, you are not allowed|insufficient permissions/i.test(body);
         if (!blocked)
             console.log('[02c.1] Subscriber reached settings page (capability check unexpected)');
@@ -76,7 +77,7 @@ test.describe.serial('02c · Per-role visibility', () => {
         await page.waitForTimeout(2500);
         await page.goto(`${STAGING.url}/wp-admin/edit.php?post_type=docs`);
         await page.waitForTimeout(2000);
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         const blocked = /Sorry, you are not allowed/i.test(body);
         if (blocked)
             console.log('[02c.2] Editor blocked from docs list (cap may be restricted by Access & Restrictions)');
@@ -94,7 +95,7 @@ test.describe.serial('02c · Per-role visibility', () => {
         await page.waitForTimeout(2500);
         await page.goto(`${STAGING.url}/wp-admin/post-new.php?post_type=docs`);
         await page.waitForTimeout(3000);
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         // Contributors see "Submit for Review" not "Publish"
         const hasSubmit = /Submit for Review/i.test(body);
         if (!hasSubmit)
