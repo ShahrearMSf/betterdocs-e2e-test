@@ -31,6 +31,7 @@ const {
 } = require("../../helpers/staging/writeWithAi");
 const { STAGING } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 
 const created = { docs: [] };
 let keyPresent = false;
@@ -104,7 +105,7 @@ test.describe.serial('01k · Write with AI', () => {
             return;
         }
         await shoot(page, 'test-results-staging/01k-wwai/00-modal.png');
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         for (const tab of ['Prompt', 'From source', 'From Git']) {
             if (!body.includes(tab)) {
                 logRename(`wwai:tab-${tab}`, tab, '(not visible)');
@@ -161,7 +162,7 @@ test.describe.serial('01k · Write with AI', () => {
             tab: 'prompt',
             prompt: 'Write a short knowledge-base article about installing a WordPress plugin.',
         });
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         expect(body, 'page should not fatal').not.toMatch(/Fatal error|Uncaught/);
         expect(errors, 'no page-level errors during generation').toHaveLength(0);
         if (result.ok) {
@@ -189,10 +190,22 @@ test.describe.serial('01k · Write with AI', () => {
         test.skip(!opened, 'modal not available');
         const result = await generate(page, { tab: 'prompt', prompt: 'Write about WordPress backups.' });
         await page.waitForTimeout(1500);
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         // Glossaries removal: always assert — no key needed, this is about
         // the modal chrome that exists whether we generated or not.
-        expect(body, 'glossaries suggestion group must not appear').not.toMatch(/Suggested.*glossaries|Glossaries.*group/i);
+        //
+        // Scope this read to the modal. A whole-page read also takes in the
+        // WP admin menu, which carries its own "Glossaries" item under
+        // BetterDocs, so the old unscoped check reported the suggestion group
+        // present on a plugin that had correctly removed it. `.*` is tightened
+        // to `\s*` for the same reason: across concatenated page text an
+        // unbounded `.*` happily bridges two unrelated words.
+        const modalText = await pageText(page, '[role="dialog"], .bd-ai-modal');
+        expect(modalText, 'write-with-ai modal should be readable').not.toBe('');
+        expect(modalText, 'glossaries suggestion group must not appear').not.toMatch(/Suggested\s*glossaries|Glossaries\s*group/i);
+        // Cross-check with the same DOM query 1k.1 uses, so both tests agree
+        // on what "removed" means instead of one grepping text and one not.
+        expect(await hasGlossaryToggle(page), 'glossary suggestion toggle must stay removed').toBe(false);
         if (result.ok) {
             expect(body).toMatch(/Suggested.*(categories|tags)/i);
         } else if (keyPresent) {
@@ -283,7 +296,7 @@ test.describe.serial('01k · Write with AI', () => {
         await page.waitForTimeout(1500);
         await shoot(page, 'test-results-staging/01k-wwai/05-edit-modal.png');
         // Modal / dropdown of actions should render.
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         expect(body, 'edit-with-ai should not crash the editor').not.toMatch(/Fatal error|Uncaught/);
     });
 
@@ -316,7 +329,7 @@ test.describe.serial('01k · Write with AI', () => {
         await trigger.click().catch(() => {});
         await page.waitForTimeout(30_000);
         await shoot(page, 'test-results-staging/01k-wwai/06-summary.png');
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         expect(body, 'Article Summary should not crash').not.toMatch(/Fatal error|Uncaught/);
     });
 
@@ -342,7 +355,7 @@ test.describe.serial('01k · Write with AI', () => {
             const opened = await openWriteWithAi(page);
             test.skip(!opened, 'modal not available');
             const result = await generate(page, { tab: 'prompt', prompt: 'test' });
-            const body = await page.locator('body').textContent() || '';
+            const body = await pageText(page);
             // The generation should NOT crash the page. Either result.ok
             // is false (we timed out on the completion marker because a
             // friendly error rendered instead) OR the modal shows an error
@@ -447,7 +460,7 @@ test.describe.serial('01k · Write with AI', () => {
         }
         await gitTab.click().catch(() => {});
         await page.waitForTimeout(1500);
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         expect(body, 'Git tab under Free should not fatal').not.toMatch(/Fatal error|Uncaught/);
         if (!/pro|upgrade|unavailable|not.*connected/i.test(body)) {
             logRename('wwai:git-free-message', 'Pro-required / unavailable message', '(no gate copy)');
@@ -492,7 +505,7 @@ test.describe.serial('01k · Write with AI', () => {
             await shoot(page, 'test-results-staging/01k-wwai/12-no-key-after-generate.png');
             expect(afterClick.visible, 'Generate click must surface the missing-key notice').toBe(true);
             console.log('[01k.12] notice after Generate click:', afterClick.text);
-            const body = await page.locator('body').textContent() || '';
+            const body = await pageText(page);
             expect(body, 'no-key path must not fatal').not.toMatch(/Fatal error|Uncaught/);
         } finally {
             if (priorKey) await setBetterdocsToggle(page, 'betterdocs_api_key', priorKey);

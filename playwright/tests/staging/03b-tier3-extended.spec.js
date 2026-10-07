@@ -12,6 +12,7 @@ const { setTier } = require("../../helpers/staging/plugins");
 const { newGuestPage, visitFrontend } = require("../../helpers/staging/frontend");
 const { STAGING } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 test.describe.serial('Tier 3b · Chatbot extended', () => {
     test.beforeAll(async ({ browser }) => {
         const ctx = await browser.newContext();
@@ -34,7 +35,7 @@ test.describe.serial('Tier 3b · Chatbot extended', () => {
         }, [STAGING.url, nonce]);
         await gotoAdmin(page, 'admin.php?page=betterdocs-ai-chatbot-logs');
         await page.waitForTimeout(2500);
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         expect(body, 'logs page should not be a fatal').not.toMatch(/Fatal error|Uncaught/);
         await shoot(page, 'test-results-staging/03b-tier3/01-chatbot-logs.png', { fullPage: true });
     });

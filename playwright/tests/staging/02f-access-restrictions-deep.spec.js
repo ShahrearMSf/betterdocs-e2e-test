@@ -23,6 +23,7 @@ const { setMultipleKb } = require("../../helpers/staging/settings");
 const { newGuestPage, visitFrontend } = require("../../helpers/staging/frontend");
 const { STAGING, AUTHOR_USER } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 // Resources we create and tear down across the spec.
 const created = {};
 async function setARSettings(page, settings) {
@@ -126,7 +127,7 @@ test.describe.serial('02f · Access & Restrictions deep', () => {
         // Visit Doc-A as Author — should be blocked (404 / restriction template).
         await authorPage.goto(`${STAGING.url}${created.docA.link.replace(STAGING.url, '')}`, { waitUntil: 'domcontentloaded' });
         await authorPage.waitForTimeout(2000);
-        const docABody = await authorPage.locator('body').textContent() || '';
+        const docABody = await pageText(authorPage);
         const docABlocked = /404|not found|sorry|restricted|members only|not allowed/i.test(docABody)
             || !docABody.includes(created.docA.title);
         await shoot(authorPage, 'test-results-staging/02f-ar-deep/01-author-on-doc-a-blocked.png');
@@ -134,7 +135,7 @@ test.describe.serial('02f · Access & Restrictions deep', () => {
         // Visit Doc-B as Author — should be visible.
         await authorPage.goto(`${STAGING.url}${created.docB.link.replace(STAGING.url, '')}`, { waitUntil: 'domcontentloaded' });
         await authorPage.waitForTimeout(2000);
-        const docBBody = await authorPage.locator('body').textContent() || '';
+        const docBBody = await pageText(authorPage);
         await shoot(authorPage, 'test-results-staging/02f-ar-deep/02-author-on-doc-b-open.png');
         expect(docBBody, 'Author should see open Doc-B').toContain(created.docB.title);
         // Switch back to admin (clean session state).
@@ -169,7 +170,7 @@ test.describe.serial('02f · Access & Restrictions deep', () => {
         const { page: guest, ctx: guestCtx } = await newGuestPage(browser);
         await guest.goto(`${STAGING.url}${created.docA.link.replace(STAGING.url, '')}`, { waitUntil: 'domcontentloaded' });
         await guest.waitForTimeout(2500);
-        const guestBody = await guest.locator('body').textContent() || '';
+        const guestBody = await pageText(guest);
         const guestBlocked = /404|not found|sorry|restricted|members only|not allowed|please log/i.test(guestBody)
             || !guestBody.includes(created.docA.title);
         await shoot(guest, 'test-results-staging/02f-ar-deep/03-guest-on-restricted-doc.png');
@@ -180,7 +181,7 @@ test.describe.serial('02f · Access & Restrictions deep', () => {
         await loginAsUser(author, AUTHOR_USER.login, AUTHOR_USER.pass);
         await author.goto(`${STAGING.url}${created.docA.link.replace(STAGING.url, '')}`, { waitUntil: 'domcontentloaded' });
         await author.waitForTimeout(2500);
-        const authorBody = await author.locator('body').textContent() || '';
+        const authorBody = await pageText(author);
         await shoot(author, 'test-results-staging/02f-ar-deep/04-author-on-restricted-doc.png');
         expect(authorBody, 'Author (logged in) must see Doc-A under logged-in-only gating').toContain(created.docA.title);
         await authorCtx.close();
@@ -209,7 +210,7 @@ test.describe.serial('02f · Access & Restrictions deep', () => {
         const { page: guest, ctx } = await newGuestPage(browser);
         await guest.goto(`${STAGING.url}${created.docB.link.replace(STAGING.url, '')}`, { waitUntil: 'domcontentloaded' });
         await guest.waitForTimeout(2500);
-        const body = await guest.locator('body').textContent() || '';
+        const body = await pageText(guest);
         await shoot(guest, 'test-results-staging/02f-ar-deep/05-guest-on-open-doc.png');
         expect(body, 'Open Doc-B should remain visible to guest').toContain(created.docB.title);
         await ctx.close();
@@ -237,7 +238,7 @@ test.describe.serial('02f · Access & Restrictions deep', () => {
         const { page: guest, ctx } = await newGuestPage(browser);
         await visitFrontend(guest, '/docs/');
         await guest.waitForTimeout(2500);
-        const archiveBody = await guest.locator('body').textContent() || '';
+        const archiveBody = await pageText(guest);
         await shoot(guest, 'test-results-staging/02f-ar-deep/06-archive-guest.png');
         // Observation, not a hard fail: BetterDocs' A&R gates single-doc views but
         // sometimes still lists titles on the archive (clicks then get blocked).
@@ -248,7 +249,7 @@ test.describe.serial('02f · Access & Restrictions deep', () => {
         // Hard check: clicking through to the restricted single doc should be blocked.
         await guest.goto(`${STAGING.url}${created.docA.link.replace(STAGING.url, '')}`, { waitUntil: 'domcontentloaded' });
         await guest.waitForTimeout(2000);
-        const singleBody = await guest.locator('body').textContent() || '';
+        const singleBody = await pageText(guest);
         const singleBlocked = /404|not found|sorry|restricted|members only|not allowed|please log/i.test(singleBody)
             || !singleBody.includes(created.docA.title);
         await shoot(guest, 'test-results-staging/02f-ar-deep/06b-single-still-gated.png');

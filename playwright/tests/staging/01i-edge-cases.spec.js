@@ -10,6 +10,7 @@ const { newGuestPage, visitFrontend, expectPageOk } = require("../../helpers/sta
 const { logRename } = require("../../helpers/staging/settings");
 const { STAGING } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 const created = { docs: [], cats: [] };
 test.describe.serial('01i · Edge cases', () => {
     test.beforeAll(async ({ browser }) => {
@@ -84,7 +85,7 @@ test.describe.serial('01i · Edge cases', () => {
         const { page: guest, ctx } = await newGuestPage(browser);
         await visitFrontend(guest, doc.link.replace(STAGING.url, ''));
         await guest.waitForTimeout(1500);
-        const body = await guest.locator('body').textContent() || '';
+        const body = await pageText(guest);
         // Drafts should 404 for guests (or show a "Sorry, not allowed" message)
         const isAccessible = !/404|not found|sorry|forbidden/i.test(body);
         if (isAccessible)

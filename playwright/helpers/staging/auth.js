@@ -1,4 +1,5 @@
 const { STAGING } = require("./env");
+const { pageText } = require("./text");
 /**
  * Fill the wp-login user + password fields with clear-then-fill semantics,
  * verifying both values stuck. Retries up to 3 times because Chrome's
@@ -173,7 +174,7 @@ async function loginAsAdmin(page, attempt = 1) {
  * form afterwards); false if none was present.
  */
 async function solveHumanityChallenge(page) {
-    const body = await page.locator('body').textContent().catch(() => '') || '';
+    const body = await pageText(page);
     if (!/Prove your humanity|Please solve this math problem/i.test(body)) {
         return false;
     }
@@ -222,7 +223,9 @@ async function solveHumanityChallenge(page) {
     const deadline = Date.now() + 10_000;
     while (Date.now() < deadline) {
         if (page.url() !== beforeUrl) break;
-        const stillChallenged = await page.locator('body').textContent().catch(() => '');
+        // Short attach-timeout: this loop is bounded to 10s overall, so the
+        // helper default (15s) could stall one iteration past the deadline.
+        const stillChallenged = await pageText(page, 'body', 2_000);
         if (!/Prove your humanity|Please solve this math problem/i.test(stillChallenged || '')) break;
         await page.waitForTimeout(500);
     }
@@ -257,7 +260,7 @@ async function dismissInterstitials(page) {
     }
 }
 async function pageHasDbError(page) {
-    const body = await page.locator('body').textContent().catch(() => '');
+    const body = await pageText(page);
     // Match ONLY the WordPress "site can't reach the DB" screen. The earlier
     // `|database error` alternative fired on any plugin description that
     // contained the word "database" — false positive.

@@ -22,6 +22,7 @@ const {
     setAiChatbotApiKey,
 } = require("../../helpers/staging/settings");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 
 async function openAiChatbotTab(page) {
     await gotoAdmin(page, 'admin.php?page=betterdocs-settings');
@@ -56,7 +57,7 @@ test.describe.serial('03d · Chatbot without API key', () => {
         await enableInstantAnswer(page, false);
         await openAiChatbotTab(page);
         await shoot(page, 'test-results-staging/03d-chatbot-no-key/01-ia-off-warning.png', { fullPage: true });
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         const iaWarningRe = /Instant Answer.*(disabled|off|not enabled)|Enable Instant Answer|require.*Instant Answer/i;
         if (!iaWarningRe.test(body)) {
             logRename('chatbot-ia-off-warning', 'IA-required warning in AI Chatbot tab', '(no matching copy)');
@@ -76,7 +77,7 @@ test.describe.serial('03d · Chatbot without API key', () => {
         await setAiChatbotApiKey(page, '');
         await openAiChatbotTab(page);
         await shoot(page, 'test-results-staging/03d-chatbot-no-key/02-empty-key-tab.png', { fullPage: true });
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         // Any of these markers would indicate the key state is somewhere on
         // the page. Presence is informational; absence is what we assert
         // negatively (the "valid" green state should NOT be up).

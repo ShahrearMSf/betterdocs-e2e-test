@@ -16,6 +16,7 @@ const { createDoc, deleteDoc } = require("../../helpers/staging/records");
 const { newGuestPage, visitFrontend } = require("../../helpers/staging/frontend");
 const { STAGING } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 let testDocId = null;
 let testDocLink = null;
 test.describe.serial('01f · Frontend interactions', () => {
@@ -134,7 +135,7 @@ test.describe.serial('01f · Frontend interactions', () => {
         const { page: guest, ctx } = await newGuestPage(browser);
         await visitFrontend(guest, testDocLink.replace(STAGING.url, ''));
         await guest.waitForTimeout(1500);
-        const body = await guest.locator('body').textContent() || '';
+        const body = await pageText(guest);
         const hasReadingTime = /minute|min read|reading time/i.test(body);
         if (!hasReadingTime)
             console.log('[01f.6] reading-time indicator not rendered on this template');

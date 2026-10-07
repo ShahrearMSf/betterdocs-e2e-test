@@ -30,6 +30,7 @@ const {
 } = require("../../helpers/staging/settings");
 const { STAGING } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 
 test.describe.serial('03c · Chatbot conversation (via IA modal)', () => {
     // Preconditions: chatbot tier active, IA on, chatbot on, API key EMPTY —
@@ -175,7 +176,7 @@ test.describe.serial('03c · Chatbot conversation (via IA modal)', () => {
         // Chatbot may take a moment even when it fails — wait for network+idle.
         await guest.waitForTimeout(6000);
         await shoot(guest, 'test-results-staging/03c-chatbot/03-after-hi.png');
-        const panelBody = await guest.locator('body').textContent() || '';
+        const panelBody = await pageText(guest);
         const noticeRe = /not active|contact.*admin|not.*configured|api[_ ]?key|OpenAI|Missing configuration|not currently available|something went wrong|try again later/i;
         if (!noticeRe.test(panelBody)) {
             logRename('chatbot-no-key-notice', 'failure / contact-admin notice', '(no matching text on page after "hi")');
@@ -203,7 +204,7 @@ test.describe.serial('03c · Chatbot conversation (via IA modal)', () => {
         for (const path of candidates) {
             await gotoAdmin(page, path);
             await page.waitForTimeout(1500);
-            const body = await page.locator('body').textContent() || '';
+            const body = await pageText(page);
             const looksOk = body.length > 1000 && !/insufficient permissions|invalid page|page you are looking for/i.test(body);
             if (looksOk) {
                 await shoot(page, `test-results-staging/03c-chatbot/04-history-${path.replace(/\W+/g, '_')}.png`, { fullPage: true });

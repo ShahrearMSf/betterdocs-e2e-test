@@ -5,6 +5,7 @@
  */
 const { expect } = require("@playwright/test");
 const { STAGING } = require("./env");
+const { pageText } = require("./text");
 async function newGuestPage(browser) {
     // Explicit storageState: undefined — Playwright's project-level
     // `use.storageState` (the admin cookie file we persist per run) would
@@ -36,7 +37,7 @@ async function visitFrontend(page, path) {
  * Lightweight "did it render?" check — page didn't 500, didn't 404, has body content.
  */
 async function expectPageOk(page) {
-    const body = await page.locator('body').textContent() || '';
+    const body = await pageText(page);
     expect(body, 'page should not be a fatal-error page').not.toMatch(/Fatal error|Uncaught Error/);
     expect(body, 'page should not be 404').not.toMatch(/Page not found/);
 }

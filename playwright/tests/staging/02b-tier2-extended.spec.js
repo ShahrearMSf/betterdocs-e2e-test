@@ -16,6 +16,7 @@ const { logRename } = require("../../helpers/staging/settings");
 const { newGuestPage, visitFrontend } = require("../../helpers/staging/frontend");
 const { STAGING } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 const created = { docs: [], cats: [] };
 test.describe.serial('Tier 2b · Pro extended', () => {
     test.beforeAll(async ({ browser }) => {
@@ -83,7 +84,7 @@ test.describe.serial('Tier 2b · Pro extended', () => {
         const { page: guest, ctx } = await newGuestPage(browser);
         await visitFrontend(guest, '/docs/');
         await guest.waitForTimeout(2500);
-        const body = await guest.locator('body').textContent() || '';
+        const body = await pageText(guest);
         const restrictedVisible = /restrict|not allowed|members only|sign in/i.test(body);
         const docTitlesVisible = /QA Related Doc/i.test(body);
         console.log('Guest /docs/ — restriction text:', restrictedVisible, '· QA doc visible:', docTitlesVisible);
@@ -115,7 +116,7 @@ test.describe.serial('Tier 2b · Pro extended', () => {
             return;
         await gotoAdmin(page, `post.php?post=${id}&action=edit`);
         await page.waitForTimeout(3500);
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         // Pro adds "Related Articles" / "Related Docs" metabox
         const hasRelatedMetabox = /Related Articles|Related Docs/i.test(body);
         if (!hasRelatedMetabox)
@@ -160,7 +161,7 @@ test.describe.serial('Tier 2b · Pro extended', () => {
         await loginAsAdmin(page);
         await gotoAdmin(page, 'admin.php?page=betterdocs-analytics');
         await page.waitForTimeout(4000);
-        const body = await page.locator('body').textContent() || '';
+        const body = await pageText(page);
         const hasMetrics = /Total Views|Total Searches|Reactions|chart|trend/i.test(body);
         if (!hasMetrics)
             console.log('[2b.6] No analytics metric labels visible (may be empty / not yet seeded)');

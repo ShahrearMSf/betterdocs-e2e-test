@@ -31,6 +31,7 @@ const { logRename } = require("../../helpers/staging/settings");
 const { newGuestPage, visitFrontend } = require("../../helpers/staging/frontend");
 const { shoot } = require("../../helpers/staging/screenshot");
 const { STAGING, PLUGINS } = require("../../helpers/staging/env");
+const { pageText } = require("../../helpers/staging/text");
 
 const created = { group: null, faq: null };
 let targetProduct = null;
@@ -118,7 +119,7 @@ test.describe.serial('02h · WooCommerce Product FAQ', () => {
         } else {
             logRename('02h.2:product-tab', 'FAQ tab injected into WC product tabs', '(not detected)');
         }
-        const body = await guest.locator('body').textContent() || '';
+        const body = await pageText(guest);
         await shoot(guest, 'test-results-staging/02h-product-faq/01-product-tab.png', { fullPage: true });
         // The question should be somewhere on the product page (tab content
         // may load lazily but the DOM node is usually already rendered).
@@ -139,7 +140,7 @@ test.describe.serial('02h · WooCommerce Product FAQ', () => {
         const { page: guest, ctx } = await newGuestPage(browser);
         await visitFrontend(guest, `/product/${targetProduct.slug}/`);
         await guest.waitForTimeout(3000);
-        const body = await guest.locator('body').textContent() || '';
+        const body = await pageText(guest);
         await shoot(guest, 'test-results-staging/02h-product-faq/02-after-summary.png', { fullPage: true });
         if (!body.includes(created.faq.question)) {
             logRename('02h.3:inline', `question "${created.faq.question}" inline`, '(not on product page)');

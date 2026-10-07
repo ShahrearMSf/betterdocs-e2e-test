@@ -14,6 +14,7 @@ const { setTier } = require("../../helpers/staging/plugins");
 const { enableEncyclopedia, logRename } = require("../../helpers/staging/settings");
 const { newGuestPage, visitFrontend } = require("../../helpers/staging/frontend");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 
 const FSE_THEMES = [
     { slug: 'twentytwentyfour', label: 'Twenty Twenty-Four' },
@@ -62,7 +63,7 @@ test.describe.serial('04 · FSE encyclopedia routing', () => {
             const { page: guest, ctx } = await newGuestPage(browser);
             await visitFrontend(guest, '/encyclopedia/');
             await guest.waitForTimeout(2500);
-            const body = await guest.locator('body').textContent() || '';
+            const body = await pageText(guest);
             expect(body, `${theme.label} /encyclopedia/ should not fatal`)
                 .not.toMatch(/Fatal error|Uncaught/);
             expect(body, `${theme.label} /encyclopedia/ should not 404`)

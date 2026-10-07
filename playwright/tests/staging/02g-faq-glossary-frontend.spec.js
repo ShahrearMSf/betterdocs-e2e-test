@@ -13,6 +13,7 @@ const { createFaq, createGlossary, deleteFaq, deleteGlossary } = require("../../
 const { newGuestPage, visitFrontend } = require("../../helpers/staging/frontend");
 const { STAGING } = require("../../helpers/staging/env");
 const { shoot } = require("../../helpers/staging/screenshot");
+const { pageText } = require("../../helpers/staging/text");
 /** Create a WP page with the given shortcode body, return its public URL. */
 async function createPageWithShortcode(page, title, shortcode) {
     const nonce = await getRestNonce(page);
@@ -92,7 +93,7 @@ test.describe.serial('02g · FAQ / FAQ Group / Glossary frontend', () => {
         // Verify FAQ shows in admin All FAQs list (the load-bearing check).
         await gotoAdmin(page, 'edit.php?post_type=betterdocs_faq');
         await page.waitForTimeout(2000);
-        const adminBody = await page.locator('body').textContent() || '';
+        const adminBody = await pageText(page);
         await shoot(page, 'test-results-staging/02g-faq-glossary/01-faq-admin-list.png');
         expect(adminBody, 'Created FAQ should be in admin All-FAQs list').toContain(question);
         // Frontend rendering via shortcode is best-effort — the plugin offers several
@@ -108,7 +109,7 @@ test.describe.serial('02g · FAQ / FAQ Group / Glossary frontend', () => {
             const { page: guest, ctx } = await newGuestPage(browser);
             await visitFrontend(guest, host.link.replace(STAGING.url, ''));
             await guest.waitForTimeout(2500);
-            const guestBody = await guest.locator('body').textContent() || '';
+            const guestBody = await pageText(guest);
             await shoot(guest, `test-results-staging/02g-faq-glossary/01-faq-${sc.replace(/\W+/g, '')}.png`);
             if (guestBody.includes(question)) {
                 renderedShortcode = sc;
@@ -155,7 +156,7 @@ test.describe.serial('02g · FAQ / FAQ Group / Glossary frontend', () => {
         // Hard requirement: the grouped FAQ should appear in the admin All-FAQs list.
         await gotoAdmin(page, 'edit.php?post_type=betterdocs_faq');
         await page.waitForTimeout(2000);
-        const adminBody = await page.locator('body').textContent() || '';
+        const adminBody = await pageText(page);
         await shoot(page, 'test-results-staging/02g-faq-glossary/03-faq-group-admin.png');
         expect(adminBody, 'Grouped FAQ should appear in admin list').toContain(groupedQuestion);
         // Frontend rendering with group filter — best-effort across shortcode variants.
@@ -171,7 +172,7 @@ test.describe.serial('02g · FAQ / FAQ Group / Glossary frontend', () => {
             const { page: guest, ctx } = await newGuestPage(browser);
             await visitFrontend(guest, host.link.replace(STAGING.url, ''));
             await guest.waitForTimeout(2500);
-            const body = await guest.locator('body').textContent() || '';
+            const body = await pageText(guest);
             await shoot(guest, `test-results-staging/02g-faq-glossary/03-faq-group-${sc.replace(/\W+/g, '')}.png`);
             if (body.includes(groupedQuestion)) {
                 rendered = true;
@@ -200,7 +201,7 @@ test.describe.serial('02g · FAQ / FAQ Group / Glossary frontend', () => {
         // Hard requirement: Glossary entry appears in admin All Glossaries list.
         await gotoAdmin(page, 'edit.php?post_type=glossaries');
         await page.waitForTimeout(2000);
-        const adminBody = await page.locator('body').textContent() || '';
+        const adminBody = await pageText(page);
         await shoot(page, 'test-results-staging/02g-faq-glossary/04-glossary-admin.png');
         expect(adminBody, 'Glossary term should appear in admin list').toContain(term);
         // Frontend rendering — try multiple shortcode names.
@@ -212,7 +213,7 @@ test.describe.serial('02g · FAQ / FAQ Group / Glossary frontend', () => {
             const { page: guest, ctx } = await newGuestPage(browser);
             await visitFrontend(guest, host.link.replace(STAGING.url, ''));
             await guest.waitForTimeout(2500);
-            const body = await guest.locator('body').textContent() || '';
+            const body = await pageText(guest);
             await shoot(guest, `test-results-staging/02g-faq-glossary/04-glossary-${sc.replace(/\W+/g, '')}.png`);
             if (body.includes(term)) {
                 rendered = true;
@@ -232,7 +233,7 @@ test.describe.serial('02g · FAQ / FAQ Group / Glossary frontend', () => {
         const slug = created.glossary.title.toLowerCase().replace(/\W+/g, '-');
         await visitFrontend(guest, `/glossaries/${slug}/`);
         await guest.waitForTimeout(2000);
-        const body = await guest.locator('body').textContent() || '';
+        const body = await pageText(guest);
         await shoot(guest, 'test-results-staging/02g-faq-glossary/05-glossary-single.png');
         // We don't fail if the single-page slug doesn't resolve — different builds
         // expose the CPT under different rewrites; the shortcode test above is the
